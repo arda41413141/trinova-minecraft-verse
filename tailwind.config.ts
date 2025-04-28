@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,15 +53,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+				minecraft: {
+					primary: '#8B5CF6',
+					secondary: '#7E69AB',
+					accent: '#9b87f5',
+					dark: '#1A1F2C',
+					darker: '#121420',
+					black: '#000000',
 				}
 			},
 			borderRadius: {
@@ -84,11 +83,29 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'pulse-gentle': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'pulse-gentle': 'pulse-gentle 3s ease-in-out infinite'
+			},
+			fontFamily: {
+				minecraft: ['Minecraft', 'sans-serif'],
+			},
+			backgroundImage: {
+				'hero-pattern': "url('/public/lovable-uploads/0585c4c9-e636-41c7-b94e-61b141055264.png')",
+				'gradient-minecraft': 'linear-gradient(to bottom, rgba(26, 31, 44, 0.8), rgba(0, 0, 0, 0.95))',
+				'gradient-purple': 'linear-gradient(135deg, #8B5CF6 0%, #6E59A5 100%)',
 			}
 		}
 	},
