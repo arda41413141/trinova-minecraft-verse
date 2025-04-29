@@ -1,12 +1,47 @@
-import { Shield, Star, MessageCircle, Lock, Code, Heart, HelpCircle, AlertCircle } from "lucide-react";
+import { Shield, Star, MessageCircle, Lock, Code, Heart, HelpCircle, AlertCircle, Crown, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Dummy team data
+const founderTeam = [
+  {
+    name: "deadLySin41",
+    role: "Kurucu",
+    avatar: "https://mc-heads.net/avatar/deadLySin41",
+    joinDate: "Ocak 2019",
+    discord: "deadLySin41#0001",
+    about: "Trinova Studios'un ana kurucularından biri. Sunucu vizyonu ve yönetim stratejilerinden sorumludur."
+  },
+  {
+    name: "4esermedai",
+    role: "Kurucu",
+    avatar: "https://mc-heads.net/avatar/4esermedai",
+    joinDate: "Ocak 2019",
+    discord: "4esermedai#0002",
+    about: "Topluluk ilişkileri ve oyuncu deneyiminden sorumlu kurucu üye. Yeni içerik geliştirme sürecini yönetir."
+  },
+  {
+    name: "Hazerux",
+    role: "Kurucu",
+    avatar: "https://mc-heads.net/avatar/Hazerux",
+    joinDate: "Şubat 2019",
+    discord: "Hazerux#0003",
+    about: "Teknik altyapı ve sunucu optimizasyonu konularında uzman. Sistemlerin sorunsuz çalışmasını sağlar."
+  },
+  {
+    name: "ZeldW",
+    role: "Kurucu",
+    avatar: "https://mc-heads.net/avatar/ZeldW",
+    joinDate: "Şubat 2019",
+    discord: "ZeldW#0004",
+    about: "Yaratıcı içerik ve etkinlik koordinatörü. Sunucunun benzersiz özelliklerini tasarlar ve geliştirir."
+  }
+];
+
 const adminTeam = [
   {
     name: "DragonLord",
-    role: "Kurucu & Sunucu Sahibi",
+    role: "Sunucu Sahibi",
     avatar: "https://mc-heads.net/avatar/DragonLord",
     joinDate: "Ocak 2020",
     discord: "DragonLord#0001",
@@ -132,7 +167,16 @@ const TeamPage = () => {
           </p>
         </div>
         
+        {/* Founders Team */}
+        <h2 className="font-minecraft text-2xl text-minecraft-primary mb-6 text-center">Kurucular</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          {founderTeam.map((member, index) => (
+            <FounderCard key={index} member={member} />
+          ))}
+        </div>
+        
         {/* Top Team Members */}
+        <h2 className="font-minecraft text-2xl text-minecraft-primary mb-6 text-center">Yönetim</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           {adminTeam.map((member, index) => (
             <AdminCard key={index} member={member} />
@@ -276,6 +320,35 @@ const TeamPage = () => {
             </Button>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const FounderCard = ({ member }: { member: any }) => {
+  return (
+    <div className="glass-card p-5 hover:border-minecraft-primary/30 transition-all duration-300 hover:translate-y-[-5px]">
+      <div className="flex flex-col items-center text-center">
+        <div className="relative mb-4">
+          <img
+            src={member.avatar}
+            alt={member.name}
+            className="w-24 h-24 rounded-lg border-2 border-gold"
+          />
+          <div className="absolute -bottom-2 -right-2 bg-yellow-500 rounded-full p-1.5">
+            <Crown size={16} className="text-white" />
+          </div>
+        </div>
+        
+        <h3 className="font-medium text-white mb-1">{member.name}</h3>
+        <p className="text-yellow-500 text-sm mb-3">{member.role}</p>
+        
+        <div className="w-12 h-0.5 bg-yellow-500/30 mb-3"></div>
+        
+        <p className="text-white/70 text-xs mb-1">Katılma: {member.joinDate}</p>
+        <p className="text-white/70 text-xs mb-3">Discord: {member.discord}</p>
+        
+        <p className="text-white/60 text-xs">{member.about}</p>
       </div>
     </div>
   );
