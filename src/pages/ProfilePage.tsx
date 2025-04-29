@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { User, ShoppingBag, LogOut } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Order {
   id: string;
@@ -19,6 +20,7 @@ const ProfilePage = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
+  const isMobile = useIsMobile();
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -68,27 +70,30 @@ const ProfilePage = () => {
     <div className="container mx-auto px-4 py-20 pt-32">
       <h1 className="section-title">Profilim</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
-          <Card className="glass-card">
+          <Card className="glass-card h-full">
             <CardHeader>
-              <CardTitle className="font-minecraft text-minecraft-primary">Hesap Bilgileri</CardTitle>
+              <CardTitle className="font-minecraft text-minecraft-primary flex items-center gap-2">
+                <User size={20} />
+                Hesap Bilgileri
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-center mb-4">
-                <div className="w-24 h-24 rounded-full bg-minecraft-primary/20 border-2 border-minecraft-primary flex items-center justify-center">
-                  <User size={48} className="text-minecraft-primary" />
+                <div className="w-20 h-20 rounded-full bg-minecraft-primary/20 border-2 border-minecraft-primary flex items-center justify-center">
+                  <User size={36} className="text-minecraft-primary" />
                 </div>
               </div>
               
               <div>
                 <h3 className="font-medium text-muted-foreground">Kullanıcı Adı</h3>
-                <p className="text-lg">{user.username}</p>
+                <p className="text-lg break-words">{user.username}</p>
               </div>
               
               <div>
                 <h3 className="font-medium text-muted-foreground">E-posta</h3>
-                <p className="text-lg">{user.email}</p>
+                <p className="text-lg break-words">{user.email}</p>
               </div>
               
               <div className="pt-4">
@@ -102,7 +107,7 @@ const ProfilePage = () => {
         </div>
         
         <div className="lg:col-span-2">
-          <Card className="glass-card">
+          <Card className="glass-card h-full">
             <CardHeader className="border-b border-white/10">
               <CardTitle className="font-minecraft text-minecraft-primary flex items-center gap-2">
                 <ShoppingBag size={20} />
@@ -112,7 +117,7 @@ const ProfilePage = () => {
                 Satın aldığınız ürünlerin listesi
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className={isMobile ? "p-3" : ""}>
               {orders.length === 0 ? (
                 <div className="text-center py-10">
                   <p className="text-muted-foreground mb-4">Henüz herhangi bir siparişiniz bulunmuyor</p>
@@ -126,8 +131,8 @@ const ProfilePage = () => {
                 <div className="divide-y divide-white/10">
                   {orders.map(order => (
                     <div key={order.id} className="py-4">
-                      <div className="flex justify-between mb-2">
-                        <div>
+                      <div className={`flex ${isMobile ? "flex-col" : "justify-between"} mb-2`}>
+                        <div className="mb-2">
                           <span className="font-medium">Sipariş #{order.id}</span>
                           <span className="text-sm text-muted-foreground ml-2">{order.date}</span>
                         </div>
@@ -135,20 +140,20 @@ const ProfilePage = () => {
                           order.status === 'completed' ? 'bg-green-500/20 text-green-400' : 
                           order.status === 'processing' ? 'bg-blue-500/20 text-blue-400' : 
                           'bg-red-500/20 text-red-400'
-                        }`}>
+                        } ${isMobile ? "self-start inline-block" : ""}`}>
                           {order.status === 'completed' ? 'Tamamlandı' : 
                            order.status === 'processing' ? 'İşleniyor' : 
                            'İptal Edildi'}
                         </div>
                       </div>
                       
-                      <div className="space-y-2 mb-3">
+                      <div className="space-y-2 mb-3 overflow-x-auto">
                         {order.items.map((item, idx) => (
                           <div key={idx} className="flex justify-between text-sm">
-                            <div>
+                            <div className="break-words">
                               {item.name} x{item.quantity}
                             </div>
-                            <div>{item.price.toFixed(2)} ₺</div>
+                            <div className="whitespace-nowrap ml-2">{item.price.toFixed(2)} ₺</div>
                           </div>
                         ))}
                       </div>

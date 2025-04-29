@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import AuthDialog from "./auth/AuthDialog";
 import { useCart } from "@/context/CartContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
   const { items } = useCart();
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +33,11 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
 
   const navLinks = [
     { name: "Ana Sayfa", path: "/" },
@@ -73,6 +80,11 @@ const Navbar = () => {
                 src="/lovable-uploads/0585c4c9-e636-41c7-b94e-61b141055264.png" 
                 alt="TrinovaStudios Logo" 
                 className="w-10 h-10"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = "/placeholder.svg";
+                }}
               />
               <span className="font-minecraft text-minecraft-primary text-xl hidden sm:block">
                 TrinovaStudios
@@ -116,10 +128,10 @@ const Navbar = () => {
                     className="flex items-center gap-2 text-white hover:text-minecraft-primary"
                   >
                     <User size={18} />
-                    <span>{user?.username}</span>
+                    <span className="max-w-[100px] truncate">{user?.username}</span>
                     <ChevronDown size={16} className="transition-transform group-hover:rotate-180" />
                   </Button>
-                  <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-minecraft-dark border border-minecraft-primary/20">
+                  <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-minecraft-dark border border-minecraft-primary/20 z-50">
                     <div className="py-1">
                       <Link 
                         to="/profile" 
@@ -187,7 +199,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden fixed inset-0 top-16 bg-minecraft-darker/95 backdrop-blur-lg z-40">
-            <div className="flex flex-col items-center pt-10 gap-4">
+            <div className="flex flex-col items-center pt-10 gap-4 max-h-[calc(100vh-4rem)] overflow-y-auto pb-20">
               {navLinks.map((link) => (
                 <Link 
                   key={link.path} 
