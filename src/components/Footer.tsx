@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Instagram, Youtube, Discord } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, MessageSquare } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -25,7 +25,7 @@ const Footer = () => {
             <div className="flex gap-4">
               <a href="https://discord.gg/trinovastudios" target="_blank" rel="noopener noreferrer" 
                  className="text-white/60 hover:text-minecraft-primary transition-colors">
-                <Discord size={20} />
+                <MessageSquare size={20} />
               </a>
               <a href="https://twitter.com/trinovastudios" target="_blank" rel="noopener noreferrer" 
                  className="text-white/60 hover:text-minecraft-primary transition-colors">

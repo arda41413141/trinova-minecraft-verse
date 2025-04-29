@@ -1,5 +1,4 @@
-
-import { Shield, Star, MessageCircle, Tool, Code, Heart, HelpCircle, AlertCircle } from "lucide-react";
+import { Shield, Star, MessageCircle, Lock, Code, Heart, HelpCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -216,7 +215,7 @@ const TeamPage = () => {
               <h3 className="text-minecraft-primary text-lg font-medium mb-1">Aranan Nitelikler:</h3>
               
               <RequirementCard 
-                icon={<Clock size={16} className="text-minecraft-primary" />}
+                icon={<Lock size={16} className="text-minecraft-primary" />}
                 title="Aktif Olabilmek"
                 description="Ekip üyelerinin düzenli olarak aktif olması ve sorumluluklarını yerine getirmesi beklenir."
               />
@@ -228,7 +227,7 @@ const TeamPage = () => {
               />
               
               <RequirementCard 
-                icon={<Tool size={16} className="text-minecraft-primary" />}
+                icon={<Lock size={16} className="text-minecraft-primary" />}
                 title="Problem Çözme"
                 description="Zorluklarla başa çıkabilme ve hızlı, etkili çözümler üretebilme yeteneği."
               />
