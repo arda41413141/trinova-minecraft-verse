@@ -14,31 +14,41 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import TeamPage from "./pages/TeamPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import CartPage from "./pages/CartPage";
+import ProfilePage from "./pages/ProfilePage";
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/server" element={<ServerPage />} />
-              <Route path="/shop" element={<ShopPage />} />
-              <Route path="/leaderboard" element={<LeaderboardPage />} />
-              <Route path="/team" element={<TeamPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/server" element={<ServerPage />} />
+                  <Route path="/shop" element={<ShopPage />} />
+                  <Route path="/leaderboard" element={<LeaderboardPage />} />
+                  <Route path="/team" element={<TeamPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </CartProvider>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
