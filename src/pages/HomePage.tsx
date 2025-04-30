@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import HeroSlider from "@/components/HeroSlider";
@@ -70,24 +69,18 @@ const HomePage = () => {
         <div className="container mx-auto px-4">
           <h2 className="section-title">Oyun Modları</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <GameModeCard 
-              title="Survival" 
-              description="Hayatta kalma mücadelesi, ekonomi sistemi ve büyüleyici dünyalar."
+              title="SMP (Survival MultiPlayer)" 
+              description="Arkadaşlarınla birlikte hayatta kalmaya çalış, evler ve şehirler inşa et, keşfet ve maceraya atıl!"
               image="/images/survival.jpg"
-              link="/server?mode=survival"
+              link="/server?mode=smp"
             />
             <GameModeCard 
-              title="SkyBlock" 
-              description="Küçük bir adadan imparatorluk kur ve adaları keşfet."
-              image="/images/skyblock.jpg"
-              link="/server?mode=skyblock"
-            />
-            <GameModeCard 
-              title="BedWars" 
-              description="Yatağını koru, rakiplerini yok et! Heyecan verici takım savaşları."
+              title="CPVP (Crystal PvP)" 
+              description="End kristalleriyle dolu heyecan verici PvP deneyimi! Stratejik savaşlar ve yoğun mücadeleler seni bekliyor."
               image="/images/bedwars.jpg"
-              link="/server?mode=bedwars"
+              link="/server?mode=cpvp"
             />
           </div>
           

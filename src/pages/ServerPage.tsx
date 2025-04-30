@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -72,168 +71,86 @@ const ServerPage = () => {
         {/* Game Modes */}
         <h2 className="section-title">Oyun Modları</h2>
         
-        <Tabs defaultValue="survival" className="mb-10">
-          <TabsList className="bg-minecraft-dark grid grid-cols-2 md:grid-cols-4 mb-6">
-            <TabsTrigger value="survival" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">Survival</TabsTrigger>
-            <TabsTrigger value="skyblock" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">SkyBlock</TabsTrigger>
-            <TabsTrigger value="bedwars" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">BedWars</TabsTrigger>
-            <TabsTrigger value="creative" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">Creative</TabsTrigger>
+        <Tabs defaultValue="smp" className="mb-10">
+          <TabsList className="bg-minecraft-dark grid grid-cols-2 mb-6">
+            <TabsTrigger value="smp" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">SMP</TabsTrigger>
+            <TabsTrigger value="cpvp" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">CPVP</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="survival" className="glass-card p-6">
+          <TabsContent value="smp" className="glass-card p-6">
             <div className="flex flex-col md:flex-row gap-6">
               <div className="md:w-1/2">
-                <h3 className="font-minecraft text-xl text-minecraft-primary mb-3">Survival Dünyası</h3>
+                <h3 className="font-minecraft text-xl text-minecraft-primary mb-3">SMP (Survival MultiPlayer)</h3>
                 <p className="text-white/80 mb-4">
-                  Gerçek bir hayatta kalma deneyimi için tasarlanmış dünyamızda kendi imparatorluğunu kurabilir, 
-                  diğer oyuncularla işbirliği yapabilir ve sunucumuzun ekonomisinde yer alabilirsin.
+                  Arkadaşlarınla birlikte hayatta kalmaya çalış, doğal minecraft deneyimi ile evler ve şehirler inşa et. 
+                  Yeni bölgeleri keşfet ve diğer oyuncularla maceraya atıl!
                 </p>
                 <ul className="space-y-2 text-white/70 mb-4">
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    McMMO eklentisi ile özelleştirilmiş yetenekler
+                    Vanilla Minecraft deneyimi
                   </li>
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Oyuncu ekonomisi ve mağazalar
+                    Arkadaş grupları ve klanlar
                   </li>
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Klan sistemleri ve arazi koruma
+                    Ticaret sistemi
                   </li>
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Özel eşyalar ve büyü sistemleri
+                    Düzenli etkinlikler
                   </li>
                 </ul>
                 <Button className="minecraft-btn">
-                  <span className="btn-content">Şimdi Oyna: /server survival</span>
+                  <span className="btn-content">Şimdi Oyna: /server smp</span>
                 </Button>
               </div>
               <div className="md:w-1/2 rounded-lg overflow-hidden">
                 <img 
-                  src="https://via.placeholder.com/600x400?text=Survival+Mode" 
-                  alt="Survival Mode" 
+                  src="https://via.placeholder.com/600x400?text=SMP+Mode" 
+                  alt="SMP Mode" 
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
           </TabsContent>
           
-          <TabsContent value="skyblock" className="glass-card p-6">
+          <TabsContent value="cpvp" className="glass-card p-6">
             <div className="flex flex-col md:flex-row gap-6">
               <div className="md:w-1/2">
-                <h3 className="font-minecraft text-xl text-minecraft-primary mb-3">SkyBlock Adası</h3>
+                <h3 className="font-minecraft text-xl text-minecraft-primary mb-3">CPVP (Crystal PvP)</h3>
                 <p className="text-white/80 mb-4">
-                  Gökyüzünde küçük bir adada başlayarak, kendi cennetini inşa et. Zorlu görevleri tamamla, 
-                  adanı geliştir ve sıralamalarda yükselerek ödüller kazan.
+                  End kristalleriyle dolu heyecan verici PvP deneyimi! Stratejik savaşlar ve yoğun mücadeleler ile 
+                  rakiplerini alt et ve sunucunun en iyi savaşçısı ol.
                 </p>
                 <ul className="space-y-2 text-white/70 mb-4">
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Özel ada iyileştirmeleri ve genişletmeler
+                    End kristalleri ve TNT ile PvP
                   </li>
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Ada seviye sistemi ve rekabetçi sıralama
+                    Özel kit ve eşya sistemleri
                   </li>
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Özel görevler ve ödül sistemleri
+                    Sıralama sistemi ve ödüller
                   </li>
                   <li className="flex items-center gap-2">
                     <Server size={16} className="text-minecraft-primary" />
-                    Ada ziyaretleri ve sosyal etkileşimler
+                    Haftalık turnuvalar
                   </li>
                 </ul>
                 <Button className="minecraft-btn">
-                  <span className="btn-content">Şimdi Oyna: /server skyblock</span>
+                  <span className="btn-content">Şimdi Oyna: /server cpvp</span>
                 </Button>
               </div>
               <div className="md:w-1/2 rounded-lg overflow-hidden">
                 <img 
-                  src="https://via.placeholder.com/600x400?text=SkyBlock+Mode" 
-                  alt="SkyBlock Mode" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="bedwars" className="glass-card p-6">
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className="md:w-1/2">
-                <h3 className="font-minecraft text-xl text-minecraft-primary mb-3">BedWars Savaşları</h3>
-                <p className="text-white/80 mb-4">
-                  Heyecan verici takım savaşlarında yatağını koru ve rakiplerinin yataklarını yok et! 
-                  Stratejik düşün, kaynaklarını akıllıca kullan ve takım arkadaşlarınla zafere ulaş.
-                </p>
-                <ul className="space-y-2 text-white/70 mb-4">
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Solo, Duo, 3v3 ve 4v4 modları
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Özel yükseltmeler ve eşya mağazaları
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Tematik haritalar ve oyun güncellemeleri
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Haftalık turnuvalar ve ödüller
-                  </li>
-                </ul>
-                <Button className="minecraft-btn">
-                  <span className="btn-content">Şimdi Oyna: /server bedwars</span>
-                </Button>
-              </div>
-              <div className="md:w-1/2 rounded-lg overflow-hidden">
-                <img 
-                  src="https://via.placeholder.com/600x400?text=BedWars+Mode" 
-                  alt="BedWars Mode" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="creative" className="glass-card p-6">
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className="md:w-1/2">
-                <h3 className="font-minecraft text-xl text-minecraft-primary mb-3">Creative Dünyası</h3>
-                <p className="text-white/80 mb-4">
-                  Hayal gücünü serbest bırak ve sınırsız kaynaklarla yaratıcılığını konuştur! 
-                  Kendi parselini al, muhteşem yapılar inşa et ve diğer oyuncuların yaratımlarını keşfet.
-                </p>
-                <ul className="space-y-2 text-white/70 mb-4">
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Ücretsiz ve Premium parseller
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    WorldEdit ve VoxelSniper desteği
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Haftalık yapı yarışmaları
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Server size={16} className="text-minecraft-primary" />
-                    Özel dekoratif kafalar ve bloklar
-                  </li>
-                </ul>
-                <Button className="minecraft-btn">
-                  <span className="btn-content">Şimdi Oyna: /server creative</span>
-                </Button>
-              </div>
-              <div className="md:w-1/2 rounded-lg overflow-hidden">
-                <img 
-                  src="https://via.placeholder.com/600x400?text=Creative+Mode" 
-                  alt="Creative Mode" 
+                  src="https://via.placeholder.com/600x400?text=CPVP+Mode" 
+                  alt="CPVP Mode" 
                   className="w-full h-full object-cover"
                 />
               </div>
