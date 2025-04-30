@@ -1,7 +1,6 @@
 
-import { founderTeam, adminTeam } from "@/data/teamData";
+import { founderTeam } from "@/data/teamData";
 import FounderCard from "@/components/team/FounderCard";
-import AdminCard from "@/components/team/AdminCard";
 import TeamMembers from "@/components/team/TeamMembers";
 import JoinTeam from "@/components/team/JoinTeam";
 import ApplicationProcess from "@/components/team/ApplicationProcess";
@@ -24,14 +23,6 @@ const TeamPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {founderTeam.map((member, index) => (
             <FounderCard key={index} member={member} />
-          ))}
-        </div>
-        
-        {/* Top Team Members */}
-        <h2 className="font-minecraft text-2xl text-minecraft-primary mb-6 text-center">Yönetim</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          {adminTeam.map((member, index) => (
-            <AdminCard key={index} member={member} />
           ))}
         </div>
         

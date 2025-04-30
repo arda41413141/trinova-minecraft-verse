@@ -8,7 +8,7 @@ export interface TeamMember {
   about: string;
 }
 
-// Dummy team data
+// Founder team data
 export const founderTeam: TeamMember[] = [
   {
     name: "deadLySin41",
@@ -44,25 +44,7 @@ export const founderTeam: TeamMember[] = [
   }
 ];
 
-export const adminTeam: TeamMember[] = [
-  {
-    name: "DragonLord",
-    role: "Sunucu Sahibi",
-    avatar: "https://mc-heads.net/avatar/DragonLord",
-    joinDate: "Ocak 2020",
-    discord: "DragonLord#0001",
-    about: "Trinova Studios'un kurucusu ve vizyoneri. Sunucunun genel yönetimi ve geleceğiyle ilgilenir."
-  },
-  {
-    name: "NightWatcher",
-    role: "Teknik Direktör",
-    avatar: "https://mc-heads.net/avatar/NightWatcher",
-    joinDate: "Şubat 2020",
-    discord: "NightWatcher#1234",
-    about: "Sunucu altyapısı, performans optimizasyonları ve teknik sorunlardan sorumlu."
-  }
-];
-
+// Moderator team data
 export const modTeam: TeamMember[] = [
   {
     name: "PurpleWizard",
@@ -98,6 +80,7 @@ export const modTeam: TeamMember[] = [
   }
 ];
 
+// Developer team data
 export const devTeam: TeamMember[] = [
   {
     name: "RedstoneGenius",
@@ -125,6 +108,7 @@ export const devTeam: TeamMember[] = [
   }
 ];
 
+// Helper team data
 export const helperTeam: TeamMember[] = [
   {
     name: "FriendlyGhost",
