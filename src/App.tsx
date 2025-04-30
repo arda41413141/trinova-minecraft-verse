@@ -18,10 +18,8 @@ import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { TicketsProvider } from "./hooks/use-tickets";
 import ErrorBoundary from "./components/ErrorBoundary";
-
-// Remove unused import
-// import "./App.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,27 +36,29 @@ const App = () => (
       <ErrorBoundary>
         <AuthProvider>
           <CartProvider>
-            <Toaster />
-            <Sonner position="top-right" />
-            <BrowserRouter>
-              <div className="min-h-screen flex flex-col">
-                <Navbar />
-                <main className="flex-grow">
-                  <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/server" element={<ServerPage />} />
-                    <Route path="/shop" element={<ShopPage />} />
-                    <Route path="/leaderboard" element={<LeaderboardPage />} />
-                    <Route path="/team" element={<TeamPage />} />
-                    <Route path="/contact" element={<ContactPage />} />
-                    <Route path="/cart" element={<CartPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-                <Footer />
-              </div>
-            </BrowserRouter>
+            <TicketsProvider>
+              <Toaster />
+              <Sonner position="top-right" />
+              <BrowserRouter>
+                <div className="min-h-screen flex flex-col">
+                  <Navbar />
+                  <main className="flex-grow">
+                    <Routes>
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/server" element={<ServerPage />} />
+                      <Route path="/shop" element={<ShopPage />} />
+                      <Route path="/leaderboard" element={<LeaderboardPage />} />
+                      <Route path="/team" element={<TeamPage />} />
+                      <Route path="/contact" element={<ContactPage />} />
+                      <Route path="/cart" element={<CartPage />} />
+                      <Route path="/profile" element={<ProfilePage />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </main>
+                  <Footer />
+                </div>
+              </BrowserRouter>
+            </TicketsProvider>
           </CartProvider>
         </AuthProvider>
       </ErrorBoundary>

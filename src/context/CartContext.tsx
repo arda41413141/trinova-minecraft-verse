@@ -1,6 +1,7 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
 
 export interface Product {
   id: string;
@@ -9,12 +10,19 @@ export interface Product {
   image: string;
   description?: string;
   category?: string;
-  priceType?: "coin" | "money"; // New field to determine if product is purchased with coins or money
+  priceType?: "coin" | "money"; // Field to determine if product is purchased with coins or money
 }
 
 export interface CartItem {
   product: Product;
   quantity: number;
+}
+
+export interface PurchasedItem {
+  id: string;
+  name: string;
+  purchaseDate: string;
+  expiryDate?: string;
 }
 
 interface CartContextType {
@@ -28,21 +36,31 @@ interface CartContextType {
   coinBalance: number;
   addCoins: (amount: number) => void;
   useCoins: (amount: number) => boolean;
+  purchasedItems: PurchasedItem[];
+  vipStatus: string | null;
+  processCheckout: () => Promise<boolean>;
 }
 
 const STORAGE_KEY = "trinova_cart";
 const COIN_STORAGE_KEY = "trinova_coins";
+const PURCHASED_ITEMS_KEY = "trinova_purchased_items";
+const VIP_STATUS_KEY = "trinova_vip_status";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [coinBalance, setCoinBalance] = useState<number>(0);
+  const [purchasedItems, setPurchasedItems] = useState<PurchasedItem[]>([]);
+  const [vipStatus, setVipStatus] = useState<string | null>(null);
+  const { isAuthenticated } = useAuth();
 
-  // Load cart and coins from localStorage
+  // Load cart, coins, and purchased items from localStorage
   useEffect(() => {
     const storedCart = localStorage.getItem(STORAGE_KEY);
     const storedCoins = localStorage.getItem(COIN_STORAGE_KEY);
+    const storedPurchasedItems = localStorage.getItem(PURCHASED_ITEMS_KEY);
+    const storedVipStatus = localStorage.getItem(VIP_STATUS_KEY);
     
     if (storedCart) {
       try {
@@ -59,9 +77,25 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem(COIN_STORAGE_KEY);
       }
     }
+    
+    if (storedPurchasedItems) {
+      try {
+        setPurchasedItems(JSON.parse(storedPurchasedItems));
+      } catch (error) {
+        localStorage.removeItem(PURCHASED_ITEMS_KEY);
+      }
+    }
+
+    if (storedVipStatus) {
+      try {
+        setVipStatus(JSON.parse(storedVipStatus));
+      } catch (error) {
+        localStorage.removeItem(VIP_STATUS_KEY);
+      }
+    }
   }, []);
 
-  // Update localStorage when cart or coins change
+  // Update localStorage when cart, coins, or purchased items change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
@@ -69,6 +103,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     localStorage.setItem(COIN_STORAGE_KEY, JSON.stringify(coinBalance));
   }, [coinBalance]);
+  
+  useEffect(() => {
+    localStorage.setItem(PURCHASED_ITEMS_KEY, JSON.stringify(purchasedItems));
+  }, [purchasedItems]);
+
+  useEffect(() => {
+    if (vipStatus) {
+      localStorage.setItem(VIP_STATUS_KEY, JSON.stringify(vipStatus));
+    }
+  }, [vipStatus]);
 
   const addItem = (product: Product, quantity = 1) => {
     setItems(prevItems => {
@@ -132,6 +176,69 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const processCheckout = async (): Promise<boolean> => {
+    if (!isAuthenticated) {
+      toast.error("Ödeme yapmak için giriş yapmalısınız");
+      return false;
+    }
+
+    try {
+      // Process each item in the cart
+      for (const item of items) {
+        const { product, quantity } = item;
+
+        // Add coins if it's a coin package
+        if (product.category === "credit") {
+          const coinAmount = parseInt(product.name.split(' ')[0]) * quantity;
+          addCoins(coinAmount);
+        }
+        // Process coin purchases
+        else if (product.priceType === "coin") {
+          // Check if user has enough coins
+          const totalCost = product.price * quantity;
+          if (!useCoins(totalCost)) {
+            return false; // Not enough coins
+          }
+          
+          // Add to purchased items
+          addPurchasedItem(product);
+        }
+        // Process money purchases
+        else {
+          // Add to purchased items
+          addPurchasedItem(product);
+          
+          // If it's a VIP package, update VIP status
+          if (product.category === "rank") {
+            setVipStatus(product.name);
+          }
+        }
+      }
+      
+      // Clear the cart after successful checkout
+      clearCart();
+      toast.success("Ödeme başarıyla tamamlandı!");
+      return true;
+    } catch (error) {
+      toast.error("Ödeme işlemi sırasında bir hata oluştu");
+      return false;
+    }
+  };
+
+  const addPurchasedItem = (product: Product) => {
+    const newItem: PurchasedItem = {
+      id: product.id,
+      name: product.name,
+      purchaseDate: new Date().toISOString(),
+      // Set expiry date for VIP ranks (30 days from purchase)
+      expiryDate: product.category === "rank" 
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() 
+        : undefined
+    };
+    
+    setPurchasedItems(prev => [...prev, newItem]);
+  };
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   
   const totalPrice = items.reduce(
@@ -152,6 +259,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         coinBalance,
         addCoins,
         useCoins,
+        purchasedItems,
+        vipStatus,
+        processCheckout,
       }}
     >
       {children}

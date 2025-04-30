@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 
 const CartPage = () => {
-  const { items, removeItem, updateQuantity, clearCart, totalPrice } = useCart();
+  const { items, removeItem, updateQuantity, clearCart, totalPrice, processCheckout } = useCart();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -20,7 +20,7 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!isAuthenticated) {
       toast.error("Ödeme yapmak için giriş yapmalısınız");
       return;
@@ -28,13 +28,13 @@ const CartPage = () => {
     
     setIsProcessing(true);
     
-    // Simulate payment processing
-    setTimeout(() => {
-      toast.success("Ödeme başarıyla tamamlandı!");
-      clearCart();
+    // Process payment using our new function
+    const success = await processCheckout();
+    if (success) {
       navigate("/profile");
-      setIsProcessing(false);
-    }, 2000);
+    }
+    
+    setIsProcessing(false);
   };
 
   return (

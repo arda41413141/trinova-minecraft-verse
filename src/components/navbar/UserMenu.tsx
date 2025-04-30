@@ -1,8 +1,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import { Link } from "react-router-dom";
-import { User, ChevronDown } from "lucide-react";
+import { User, ChevronDown, Crown } from "lucide-react";
 
 type UserMenuProps = {
   onLogin: () => void;
@@ -11,6 +12,7 @@ type UserMenuProps = {
 
 const UserMenu = ({ onLogin, onRegister }: UserMenuProps) => {
   const { isAuthenticated, user, logout } = useAuth();
+  const { vipStatus } = useCart();
 
   const handleLogout = async () => {
     await logout();
@@ -22,7 +24,11 @@ const UserMenu = ({ onLogin, onRegister }: UserMenuProps) => {
         variant="ghost" 
         className="flex items-center gap-2 text-white hover:text-minecraft-primary"
       >
-        <User size={18} />
+        {vipStatus ? (
+          <Crown size={18} className="text-yellow-400" />
+        ) : (
+          <User size={18} />
+        )}
         <span className="max-w-[100px] truncate">{user?.username}</span>
         <ChevronDown size={16} className="transition-transform group-hover:rotate-180" />
       </Button>
@@ -35,10 +41,16 @@ const UserMenu = ({ onLogin, onRegister }: UserMenuProps) => {
             Profilim
           </Link>
           <Link 
-            to="/orders" 
+            to="/profile?tab=orders" 
             className="block px-4 py-2 text-sm text-white hover:bg-minecraft-primary/20"
           >
             Siparişlerim
+          </Link>
+          <Link 
+            to="/profile?tab=tickets" 
+            className="block px-4 py-2 text-sm text-white hover:bg-minecraft-primary/20"
+          >
+            Destek Taleplerim
           </Link>
           <button 
             onClick={handleLogout}
