@@ -1,7 +1,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Server } from "lucide-react";
+import { Users, Gamepad2 } from "lucide-react";
 
 type GameModeTabsProps = {
   defaultValue?: string;
@@ -25,19 +25,19 @@ const GameModeTabs = ({ defaultValue = "smp" }: GameModeTabsProps) => {
             </p>
             <ul className="space-y-2 text-white/70 mb-4">
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Gamepad2 size={16} className="text-minecraft-primary" />
                 Vanilla Minecraft deneyimi
               </li>
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Users size={16} className="text-minecraft-primary" />
                 Arkadaş grupları ve klanlar
               </li>
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Gamepad2 size={16} className="text-minecraft-primary" />
                 Ticaret sistemi
               </li>
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Users size={16} className="text-minecraft-primary" />
                 Düzenli etkinlikler
               </li>
             </ul>
@@ -47,7 +47,7 @@ const GameModeTabs = ({ defaultValue = "smp" }: GameModeTabsProps) => {
           </div>
           <div className="md:w-1/2 rounded-lg overflow-hidden">
             <img 
-              src="https://via.placeholder.com/600x400?text=SMP+Mode" 
+              src="/images/smp-mode.webp" 
               alt="SMP Mode" 
               className="w-full h-full object-cover"
             />
@@ -65,19 +65,19 @@ const GameModeTabs = ({ defaultValue = "smp" }: GameModeTabsProps) => {
             </p>
             <ul className="space-y-2 text-white/70 mb-4">
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Gamepad2 size={16} className="text-minecraft-primary" />
                 End kristalleri ve TNT ile PvP
               </li>
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Users size={16} className="text-minecraft-primary" />
                 Özel kit ve eşya sistemleri
               </li>
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Gamepad2 size={16} className="text-minecraft-primary" />
                 Sıralama sistemi ve ödüller
               </li>
               <li className="flex items-center gap-2">
-                <Server size={16} className="text-minecraft-primary" />
+                <Users size={16} className="text-minecraft-primary" />
                 Haftalık turnuvalar
               </li>
             </ul>
@@ -87,7 +87,7 @@ const GameModeTabs = ({ defaultValue = "smp" }: GameModeTabsProps) => {
           </div>
           <div className="md:w-1/2 rounded-lg overflow-hidden">
             <img 
-              src="https://via.placeholder.com/600x400?text=CPVP+Mode" 
+              src="/images/cpvp-mode.webp" 
               alt="CPVP Mode" 
               className="w-full h-full object-cover"
             />
