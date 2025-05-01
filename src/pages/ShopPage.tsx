@@ -25,6 +25,7 @@ const ShopPage = () => {
 
   const handleAddToCart = (product: any) => {
     addItem(product, 1);
+    toast.success(`${product.name} sepete eklendi!`);
   };
 
   return (

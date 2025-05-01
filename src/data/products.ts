@@ -30,7 +30,7 @@ export const products: Product[] = [
     priceType: "coin"
   },
   {
-    id: "5",
+    id: "4",
     name: "Özel Zırh Seti",
     price: 750,
     image: "/images/products/armor.png",
