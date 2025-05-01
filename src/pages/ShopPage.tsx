@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,8 +11,7 @@ import { Coins, ShoppingBag, Crown } from "lucide-react";
 const categories = [
   { id: "all", name: "Tümü" },
   { id: "rank", name: "Rütbeler" },
-  { id: "item", name: "Eşyalar" },
-  { id: "credit", name: "Kredi" }
+  { id: "item", name: "Eşyalar" }
 ];
 
 const ShopPage = () => {

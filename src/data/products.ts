@@ -30,15 +30,6 @@ export const products: Product[] = [
     priceType: "coin"
   },
   {
-    id: "4",
-    name: "100 Kredi",
-    price: 4.99,
-    image: "/images/products/credits.png",
-    description: "100 sunucu kredisi satın alın.",
-    category: "credit",
-    priceType: "money"
-  },
-  {
     id: "5",
     name: "Özel Zırh Seti",
     price: 750,
@@ -46,15 +37,6 @@ export const products: Product[] = [
     description: "Özel tasarım zırh seti.",
     category: "item",
     priceType: "coin"
-  },
-  {
-    id: "6",
-    name: "500 Kredi",
-    price: 19.99,
-    image: "/images/products/credits.png",
-    description: "500 sunucu kredisi satın alın. %20 bonus!",
-    category: "credit",
-    priceType: "money"
   }
 ];
 
