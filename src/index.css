@@ -54,6 +54,22 @@
     font-family: 'Inter', sans-serif;
     background-image: url('/images/noise-texture.png'), linear-gradient(to bottom, #1A1F2C, #121420);
     background-repeat: repeat;
+    position: relative;
+  }
+  
+  /* Minecraft particles effect */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 20%),
+      radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+    z-index: -1;
   }
 }
 
@@ -106,8 +122,74 @@
     @apply bg-black/30 backdrop-blur-lg border border-white/10 rounded-lg;
   }
   
+  .glass-card-hover {
+    @apply glass-card hover:border-minecraft-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-minecraft-primary/10;
+  }
+  
   .section-title {
     @apply font-minecraft text-2xl md:text-3xl lg:text-4xl text-minecraft-primary my-8 text-center;
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+  }
+  
+  .pixel-border {
+    position: relative;
+    border: 2px solid theme('colors.minecraft.primary');
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  }
+  
+  .pixel-border::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    pointer-events: none;
+  }
+  
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .floating-element-slow {
+    animation: float 10s ease-in-out infinite;
+  }
+  
+  .glow-effect {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+  }
+  
+  .sparkle-button {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .sparkle-button::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(45deg);
+    animation: sparkle 3s linear infinite;
+  }
+  
+  @keyframes sparkle {
+    0% {
+      top: -100%;
+      left: -100%;
+    }
+    50% {
+      top: 150%;
+      left: 150%;
+    }
+    100% {
+      top: -100%;
+      left: -100%;
+    }
   }
 }
 
@@ -115,4 +197,48 @@
   .text-balance {
     text-wrap: balance;
   }
+  
+  .text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .text-glow-purple {
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+  }
+  
+  .minecraft-pattern {
+    background-image: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="8" height="8" fill="%23ffffff10"/><rect x="8" y="8" width="8" height="8" fill="%23ffffff10"/></svg>');
+    background-repeat: repeat;
+  }
+  
+  .clip-diamond {
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-gentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-rotate {
+  animation: rotate 10s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-gentle {
+  animation: pulse-gentle 3s ease-in-out infinite;
 }

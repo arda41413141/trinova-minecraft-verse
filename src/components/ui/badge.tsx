@@ -16,6 +16,9 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        glow: "border-transparent bg-minecraft-primary text-white shadow-lg shadow-minecraft-primary/30 animate-pulse-gentle",
+        rainbow: "border-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white",
+        pixel: "font-minecraft border-2 border-minecraft-primary bg-minecraft-darker text-minecraft-primary",
       },
     },
     defaultVariants: {
