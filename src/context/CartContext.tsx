@@ -189,8 +189,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Add coins if it's a coin package
         if (product.category === "credit") {
-          const coinAmount = parseInt(product.name.split(' ')[0]) * quantity;
-          addCoins(coinAmount);
+          // Extract coin amount from the product name (like "1000 Coin" -> 1000)
+          const coinAmountMatch = product.name.match(/(\d+)/);
+          if (coinAmountMatch && coinAmountMatch[1]) {
+            const coinAmount = parseInt(coinAmountMatch[1]) * quantity;
+            addCoins(coinAmount);
+          }
         }
         // Process coin purchases
         else if (product.priceType === "coin") {
@@ -241,10 +245,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   
-  const totalPrice = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity, 
-    0
-  );
+  const totalPrice = items
+    .filter(item => item.product.priceType !== "coin")
+    .reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
   return (
     <CartContext.Provider

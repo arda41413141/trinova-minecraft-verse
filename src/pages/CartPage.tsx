@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
-import { Trash2, Minus, Plus, CreditCard } from "lucide-react";
+import { Trash2, Minus, Plus, CreditCard, Coins } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 
@@ -37,6 +37,22 @@ const CartPage = () => {
     setIsProcessing(false);
   };
 
+  // Separate items by price type (money vs coins)
+  const moneyItems = items.filter(item => item.product.priceType !== "coin");
+  const coinItems = items.filter(item => item.product.priceType === "coin");
+
+  // Calculate total price for money items
+  const totalMoneyPrice = moneyItems.reduce(
+    (sum, item) => sum + item.product.price * item.quantity, 
+    0
+  );
+
+  // Calculate total coins needed
+  const totalCoins = coinItems.reduce(
+    (sum, item) => sum + item.product.price * item.quantity, 
+    0
+  );
+
   return (
     <div className="container mx-auto px-4 py-20 pt-32">
       <h1 className="section-title">Sepetim</h1>
@@ -54,71 +70,146 @@ const CartPage = () => {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="glass-card mb-6 overflow-hidden">
-              <div className="p-4 bg-minecraft-primary/20 border-b border-minecraft-primary/30 flex justify-between">
-                <span className="font-medium">Ürün</span>
-                <div className="flex items-center gap-10">
-                  <span className="font-medium w-24 text-center">Miktar</span>
-                  <span className="font-medium w-20 text-center">Fiyat</span>
-                  <span className="w-8"></span>
-                </div>
-              </div>
-              
-              {items.map((item) => (
-                <div key={item.product.id} className="p-4 border-b border-white/10 flex justify-between items-center">
-                  <div className="flex items-center gap-4">
-                    <img 
-                      src={item.product.image || "/placeholder.svg"} 
-                      alt={item.product.name}
-                      className="w-16 h-16 object-contain bg-white/10 p-2 rounded"
-                    />
-                    <div>
-                      <h3 className="font-medium">{item.product.name}</h3>
-                      <p className="text-sm text-muted-foreground">{item.product.description?.slice(0, 40)}...</p>
-                    </div>
-                  </div>
-                  
+            {/* Money Items Section */}
+            {moneyItems.length > 0 && (
+              <div className="glass-card mb-6 overflow-hidden">
+                <div className="p-4 bg-minecraft-primary/20 border-b border-minecraft-primary/30 flex justify-between">
+                  <span className="font-medium">TL ile Satın Alınacak Ürünler</span>
                   <div className="flex items-center gap-10">
-                    <div className="flex items-center gap-2 w-24">
-                      <Button 
-                        variant="outline" 
-                        size="icon" 
-                        className="h-8 w-8"
-                        onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
-                      >
-                        <Minus className="h-3 w-3" />
-                      </Button>
-                      <Input 
-                        type="number" 
-                        value={item.quantity} 
-                        className="h-8 w-12 text-center p-0"
-                        onChange={(e) => handleQuantityChange(item.product.id, parseInt(e.target.value))}
-                        min="1"
-                      />
-                      <Button 
-                        variant="outline" 
-                        size="icon" 
-                        className="h-8 w-8"
-                        onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
-                      >
-                        <Plus className="h-3 w-3" />
-                      </Button>
-                    </div>
-                    
-                    <span className="font-medium w-20 text-right">
-                      {(item.product.price * item.quantity).toFixed(2)} ₺
-                    </span>
-                    
-                    <button 
-                      className="text-red-500 hover:text-red-400 transition-colors p-2"
-                      onClick={() => removeItem(item.product.id)}
-                    >
-                      <Trash2 size={18} />
-                    </button>
+                    <span className="font-medium w-24 text-center">Miktar</span>
+                    <span className="font-medium w-20 text-center">Fiyat</span>
+                    <span className="w-8"></span>
                   </div>
                 </div>
-              ))}
-              
+                
+                {moneyItems.map((item) => (
+                  <div key={item.product.id} className="p-4 border-b border-white/10 flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <img 
+                        src={item.product.image || "/placeholder.svg"} 
+                        alt={item.product.name}
+                        className="w-16 h-16 object-contain bg-white/10 p-2 rounded"
+                      />
+                      <div>
+                        <h3 className="font-medium">{item.product.name}</h3>
+                        <p className="text-sm text-muted-foreground">{item.product.description?.slice(0, 40)}...</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-10">
+                      <div className="flex items-center gap-2 w-24">
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                        >
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <Input 
+                          type="number" 
+                          value={item.quantity} 
+                          className="h-8 w-12 text-center p-0"
+                          onChange={(e) => handleQuantityChange(item.product.id, parseInt(e.target.value))}
+                          min="1"
+                        />
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      
+                      <span className="font-medium w-20 text-right">
+                        {(item.product.price * item.quantity).toFixed(2)} ₺
+                      </span>
+                      
+                      <button 
+                        className="text-red-500 hover:text-red-400 transition-colors p-2"
+                        onClick={() => removeItem(item.product.id)}
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {/* Coin Items Section */}
+            {coinItems.length > 0 && (
+              <div className="glass-card mb-6 overflow-hidden">
+                <div className="p-4 bg-yellow-600/20 border-b border-yellow-500/30 flex justify-between">
+                  <span className="font-medium text-yellow-400">Coin ile Satın Alınacak Ürünler</span>
+                  <div className="flex items-center gap-10">
+                    <span className="font-medium w-24 text-center">Miktar</span>
+                    <span className="font-medium w-20 text-center">Fiyat</span>
+                    <span className="w-8"></span>
+                  </div>
+                </div>
+                
+                {coinItems.map((item) => (
+                  <div key={item.product.id} className="p-4 border-b border-white/10 flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <img 
+                        src={item.product.image || "/placeholder.svg"} 
+                        alt={item.product.name}
+                        className="w-16 h-16 object-contain bg-white/10 p-2 rounded"
+                      />
+                      <div>
+                        <h3 className="font-medium">{item.product.name}</h3>
+                        <p className="text-sm text-muted-foreground">{item.product.description?.slice(0, 40)}...</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-10">
+                      <div className="flex items-center gap-2 w-24">
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                        >
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <Input 
+                          type="number" 
+                          value={item.quantity} 
+                          className="h-8 w-12 text-center p-0"
+                          onChange={(e) => handleQuantityChange(item.product.id, parseInt(e.target.value))}
+                          min="1"
+                        />
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      
+                      <span className="font-medium w-20 text-right flex items-center justify-end">
+                        <Coins size={14} className="text-yellow-400 mr-1" />
+                        {item.product.price * item.quantity}
+                      </span>
+                      
+                      <button 
+                        className="text-red-500 hover:text-red-400 transition-colors p-2"
+                        onClick={() => removeItem(item.product.id)}
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {items.length > 0 && (
               <div className="p-4 flex justify-end">
                 <Button 
                   variant="outline" 
@@ -128,7 +219,7 @@ const CartPage = () => {
                   Sepeti Temizle
                 </Button>
               </div>
-            </div>
+            )}
           </div>
           
           <div className="lg:col-span-1">
@@ -136,19 +227,38 @@ const CartPage = () => {
               <h2 className="font-minecraft text-xl text-minecraft-primary mb-6">Sipariş Özeti</h2>
               
               <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-muted-foreground">
-                  <span>Ara Toplam</span>
-                  <span>{totalPrice.toFixed(2)} ₺</span>
-                </div>
-                <div className="flex justify-between text-muted-foreground">
-                  <span>KDV</span>
-                  <span>{(totalPrice * 0.18).toFixed(2)} ₺</span>
-                </div>
-                <div className="h-px bg-white/10 my-4"></div>
-                <div className="flex justify-between font-semibold text-lg">
-                  <span>Toplam</span>
-                  <span>{(totalPrice * 1.18).toFixed(2)} ₺</span>
-                </div>
+                {moneyItems.length > 0 && (
+                  <>
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>TL Ara Toplam</span>
+                      <span>{totalMoneyPrice.toFixed(2)} ₺</span>
+                    </div>
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>KDV</span>
+                      <span>{(totalMoneyPrice * 0.18).toFixed(2)} ₺</span>
+                    </div>
+                  </>
+                )}
+                
+                {coinItems.length > 0 && (
+                  <div className="flex justify-between text-yellow-400">
+                    <span className="flex items-center">
+                      <Coins size={16} className="mr-1" />
+                      Toplam Coin
+                    </span>
+                    <span>{totalCoins}</span>
+                  </div>
+                )}
+                
+                {moneyItems.length > 0 && (
+                  <>
+                    <div className="h-px bg-white/10 my-4"></div>
+                    <div className="flex justify-between font-semibold text-lg">
+                      <span>Toplam (₺)</span>
+                      <span>{(totalMoneyPrice * 1.18).toFixed(2)} ₺</span>
+                    </div>
+                  </>
+                )}
               </div>
               
               <Button 

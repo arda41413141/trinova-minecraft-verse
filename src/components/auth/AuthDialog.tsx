@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import PasswordResetForm from "./PasswordResetForm";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 type AuthDialogProps = {
@@ -13,7 +14,29 @@ type AuthDialogProps = {
 
 const AuthDialog = ({ open, onOpenChange, defaultView = "login" }: AuthDialogProps) => {
   const [view, setView] = useState<"login" | "register">(defaultView);
+  const [showResetForm, setShowResetForm] = useState(false);
   const isMobile = useIsMobile();
+
+  const handleResetSuccess = () => {
+    setShowResetForm(false);
+    setView("login");
+  };
+
+  // Show reset form or main auth dialog
+  if (showResetForm) {
+    return (
+      <PasswordResetForm 
+        open={open} 
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            setShowResetForm(false);
+          }
+          onOpenChange(isOpen);
+        }}
+        onSuccess={handleResetSuccess}
+      />
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -31,9 +54,15 @@ const AuthDialog = ({ open, onOpenChange, defaultView = "login" }: AuthDialogPro
         
         <div className="space-y-4 py-4">
           {view === "login" ? (
-            <LoginForm onSuccess={() => onOpenChange(false)} switchToRegister={() => setView("register")} />
+            <LoginForm 
+              onSuccess={() => onOpenChange(false)} 
+              switchToRegister={() => setView("register")}
+            />
           ) : (
-            <RegisterForm onSuccess={() => onOpenChange(false)} switchToLogin={() => setView("login")} />
+            <RegisterForm 
+              onSuccess={() => onOpenChange(false)} 
+              switchToLogin={() => setView("login")} 
+            />
           )}
         </div>
       </DialogContent>
