@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/cart";
 import { products, coinPackages } from "@/data/products";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";

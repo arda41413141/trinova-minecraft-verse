@@ -1,7 +1,6 @@
-
 import { ShoppingCart, Coins } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/cart";
 
 const CartButton = () => {
   const { items, coinBalance } = useCart();

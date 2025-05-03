@@ -1,5 +1,4 @@
-
-import { Product } from "../context/CartContext";
+import { Product } from "../context/cart/types";
 
 export const products: Product[] = [
   {

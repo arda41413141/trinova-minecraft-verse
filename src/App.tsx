@@ -17,7 +17,7 @@ import NotFound from "./pages/NotFound";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/CartContext";
+import { CartProvider } from "./context/cart";
 import { TicketsProvider } from "./hooks/use-tickets";
 import ErrorBoundary from "./components/ErrorBoundary";
 

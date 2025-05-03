@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/cart";
 import { Trash2, Minus, Plus, CreditCard, Coins } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
