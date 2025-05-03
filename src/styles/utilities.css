@@ -1,0 +1,23 @@
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .text-glow-purple {
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+  }
+  
+  .minecraft-pattern {
+    background-image: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="8" height="8" fill="%23ffffff10"/><rect x="8" y="8" width="8" height="8" fill="%23ffffff10"/></svg>');
+    background-repeat: repeat;
+  }
+  
+  .clip-diamond {
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  }
+}
