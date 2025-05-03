@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
@@ -10,7 +9,11 @@ export interface Product {
   image: string;
   description?: string;
   category?: string;
-  priceType?: "coin" | "money"; // Field to determine if product is purchased with coins or money
+  priceType?: "coin" | "money"; 
+  originalPrice?: number;       // Added for discount display
+  isSpecialOffer?: boolean;     // Added for special offer items
+  discountPercentage?: number;  // Added for discount percentage
+  coinAmount?: number;          // Added for coin packages
 }
 
 export interface CartItem {
