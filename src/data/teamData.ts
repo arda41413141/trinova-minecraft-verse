@@ -1,4 +1,3 @@
-
 export interface TeamMember {
   name: string;
   role: string;
@@ -13,23 +12,15 @@ export const founderTeam: TeamMember[] = [
   {
     name: "deadLySin41",
     role: "Kurucu",
-    avatar: "https://mc-heads.net/avatar/deadLySin41",
+    avatar: "https://mc-heads.net/avatar/deadLySin41/100",
     joinDate: "Ocak 2019",
     discord: "deadLySin41#0001",
     about: "Trinova Studios'un ana kurucularından biri. Sunucu vizyonu ve yönetim stratejilerinden sorumludur."
   },
   {
-    name: "4esermedai",
-    role: "Kurucu",
-    avatar: "https://mc-heads.net/avatar/4esermedai",
-    joinDate: "Ocak 2019",
-    discord: "4esermedai#0002",
-    about: "Topluluk ilişkileri ve oyuncu deneyiminden sorumlu kurucu üye. Yeni içerik geliştirme sürecini yönetir."
-  },
-  {
     name: "Hazerux",
     role: "Kurucu",
-    avatar: "https://mc-heads.net/avatar/Hazerux",
+    avatar: "https://mc-heads.net/avatar/Hazerux/100",
     joinDate: "Şubat 2019",
     discord: "Hazerux#0003",
     about: "Teknik altyapı ve sunucu optimizasyonu konularında uzman. Sistemlerin sorunsuz çalışmasını sağlar."
@@ -37,7 +28,7 @@ export const founderTeam: TeamMember[] = [
   {
     name: "ZeldW",
     role: "Kurucu",
-    avatar: "https://mc-heads.net/avatar/ZeldW",
+    avatar: "https://mc-heads.net/avatar/ZeldW/100",
     joinDate: "Şubat 2019",
     discord: "ZeldW#0004",
     about: "Yaratıcı içerik ve etkinlik koordinatörü. Sunucunun benzersiz özelliklerini tasarlar ve geliştirir."

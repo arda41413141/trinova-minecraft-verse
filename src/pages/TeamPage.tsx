@@ -20,7 +20,7 @@ const TeamPage = () => {
         
         {/* Founders Team */}
         <h2 className="font-minecraft text-2xl text-minecraft-primary mb-6 text-center">Kurucular</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 max-w-4xl mx-auto">
           {founderTeam.map((member, index) => (
             <FounderCard key={index} member={member} />
           ))}
