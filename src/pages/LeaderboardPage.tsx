@@ -2,10 +2,11 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Search, Trophy, Medal, Award, Clock, BarChart3, Crown } from "lucide-react";
+import { Search, Trophy, Medal, Award, Clock, BarChart3, Crown, Gamepad2, Users } from "lucide-react";
+import { MinecraftBadge } from "@/components/ui/minecraft-badge";
 
 // Dummy data for leaderboards
-const survivalPlayers = [
+const smpPlayers = [
   { rank: 1, name: "DragonSlayer", level: 98, kills: 5243, playtime: "1423 saat" },
   { rank: 2, name: "Enderman_69", level: 95, kills: 4932, playtime: "1352 saat" },
   { rank: 3, name: "MythicCrafter", level: 92, kills: 4721, playtime: "1298 saat" },
@@ -18,20 +19,7 @@ const survivalPlayers = [
   { rank: 10, name: "RedstoneWiz", level: 76, kills: 3487, playtime: "986 saat" },
 ];
 
-const skyblockPlayers = [
-  { rank: 1, name: "IslandKing", level: 85, value: "15.2M", challenges: 412 },
-  { rank: 2, name: "SkyMaster", level: 82, value: "14.8M", challenges: 398 },
-  { rank: 3, name: "CloudWalker", level: 80, value: "14.1M", challenges: 387 },
-  { rank: 4, name: "VoidBuilder", level: 78, value: "13.5M", challenges: 365 },
-  { rank: 5, name: "AetherLord", level: 76, value: "12.9M", challenges: 352 },
-  { rank: 6, name: "SolarFlare", level: 74, value: "12.4M", challenges: 340 },
-  { rank: 7, name: "CosmicCrafter", level: 71, value: "11.8M", challenges: 332 },
-  { rank: 8, name: "StarGazer", level: 69, value: "11.2M", challenges: 319 },
-  { rank: 9, name: "NebulaKnight", level: 67, value: "10.7M", challenges: 305 },
-  { rank: 10, name: "GalaxyQuest", level: 65, value: "10.3M", challenges: 298 },
-];
-
-const pvpPlayers = [
+const cpvpPlayers = [
   { rank: 1, name: "BladeOfGlory", kills: 12453, deaths: 2134, kd: "5.84", wins: 1523 },
   { rank: 2, name: "ArrowStorm", kills: 11987, deaths: 2245, kd: "5.34", wins: 1487 },
   { rank: 3, name: "WarMachine", kills: 11432, deaths: 2356, kd: "4.85", wins: 1421 },
@@ -96,6 +84,7 @@ const LeaderboardPage = () => {
               </div>
               <h3 className="text-lg font-bold text-gray-300 mb-1">Enderman_69</h3>
               <p className="text-minecraft-primary font-minecraft mb-2">2. Sıra</p>
+              <MinecraftBadge variant="rank" className="mb-2">VIP</MinecraftBadge>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div className="bg-white/5 rounded p-1">
                   <span className="block text-white/60">Seviye</span>
@@ -124,6 +113,7 @@ const LeaderboardPage = () => {
               </div>
               <h3 className="text-xl font-bold text-white mb-1">DragonSlayer</h3>
               <p className="text-minecraft-primary font-minecraft text-lg mb-3">1. Sıra</p>
+              <MinecraftBadge variant="rank" size="lg" className="mb-2">MVP+</MinecraftBadge>
               <div className="grid grid-cols-2 gap-2 text-sm mb-2">
                 <div className="bg-white/5 rounded p-2">
                   <span className="block text-white/60">Seviye</span>
@@ -135,9 +125,7 @@ const LeaderboardPage = () => {
                 </div>
               </div>
               <div className="mt-1">
-                <span className="bg-minecraft-primary/20 text-minecraft-primary text-xs py-1 px-2 rounded">
-                  Kral #1 - 3 ay üst üste!
-                </span>
+                <MinecraftBadge variant="achievement">Kral #1 - 3 ay üst üste!</MinecraftBadge>
               </div>
             </div>
             
@@ -157,6 +145,7 @@ const LeaderboardPage = () => {
               </div>
               <h3 className="text-lg font-bold text-amber-200 mb-1">MythicCrafter</h3>
               <p className="text-minecraft-primary font-minecraft mb-2">3. Sıra</p>
+              <MinecraftBadge variant="rank" className="mb-2">VIP+</MinecraftBadge>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div className="bg-white/5 rounded p-1">
                   <span className="block text-white/60">Seviye</span>
@@ -174,20 +163,17 @@ const LeaderboardPage = () => {
         {/* Leaderboard Tabs */}
         <h2 className="section-title">Oyun Modları Sıralamaları</h2>
         
-        <Tabs defaultValue="survival" className="mb-10">
-          <TabsList className="bg-minecraft-dark grid grid-cols-1 sm:grid-cols-3 mb-6">
-            <TabsTrigger value="survival" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">
-              <Trophy size={16} className="mr-2" /> Survival
+        <Tabs defaultValue="smp" className="mb-10">
+          <TabsList className="bg-minecraft-dark grid grid-cols-2 mb-6">
+            <TabsTrigger value="smp" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">
+              <Gamepad2 size={16} className="mr-2" /> SMP
             </TabsTrigger>
-            <TabsTrigger value="skyblock" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">
-              <Clock size={16} className="mr-2" /> SkyBlock
-            </TabsTrigger>
-            <TabsTrigger value="pvp" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">
-              <BarChart3 size={16} className="mr-2" /> PvP
+            <TabsTrigger value="cpvp" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">
+              <BarChart3 size={16} className="mr-2" /> CPVP
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="survival">
+          <TabsContent value="smp">
             <div className="glass-card overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full">
@@ -201,7 +187,7 @@ const LeaderboardPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {survivalPlayers.map((player, index) => (
+                    {smpPlayers.map((player, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors`}>
                         <td className="px-4 py-3 whitespace-nowrap">
                           {player.rank === 1 && (
@@ -256,76 +242,7 @@ const LeaderboardPage = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="skyblock">
-            <div className="glass-card overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className="bg-minecraft-dark border-b border-white/10">
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Sıra</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Oyuncu</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Seviye</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Ada Değeri</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Görevler</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {skyblockPlayers.map((player, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors`}>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {player.rank === 1 && (
-                            <span className="inline-flex items-center justify-center bg-yellow-600/50 w-6 h-6 rounded-full">
-                              <Trophy size={14} className="text-yellow-400" />
-                            </span>
-                          )}
-                          {player.rank === 2 && (
-                            <span className="inline-flex items-center justify-center bg-gray-500/50 w-6 h-6 rounded-full">
-                              <Trophy size={14} className="text-gray-300" />
-                            </span>
-                          )}
-                          {player.rank === 3 && (
-                            <span className="inline-flex items-center justify-center bg-amber-700/50 w-6 h-6 rounded-full">
-                              <Trophy size={14} className="text-amber-500" />
-                            </span>
-                          )}
-                          {player.rank > 3 && (
-                            <span className="text-white/70">{player.rank}</span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <img
-                              src={`https://mc-heads.net/avatar/${player.name}`}
-                              alt={player.name}
-                              className="w-8 h-8 mr-3 rounded"
-                            />
-                            <span className="text-white">{player.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <span className="text-minecraft-primary font-medium">{player.level}</span>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-white/80">
-                          {player.value}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-white/80">
-                          {player.challenges}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="bg-minecraft-dark/50 p-4 flex justify-between items-center">
-                <span className="text-white/70 text-sm">Toplam Oyuncu: 1,872</span>
-                <Button variant="outline" className="border-minecraft-primary/50 text-minecraft-primary hover:bg-minecraft-primary/10">
-                  Tümünü Görüntüle
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="pvp">
+          <TabsContent value="cpvp">
             <div className="glass-card overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full">
@@ -340,7 +257,7 @@ const LeaderboardPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {pvpPlayers.map((player, index) => (
+                    {cpvpPlayers.map((player, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors`}>
                         <td className="px-4 py-3 whitespace-nowrap">
                           {player.rank === 1 && (
@@ -420,3 +337,4 @@ const LeaderboardPage = () => {
 };
 
 export default LeaderboardPage;
+
