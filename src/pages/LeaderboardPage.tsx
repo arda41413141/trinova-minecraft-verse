@@ -4,6 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Search, Trophy, Medal, Award, Clock, BarChart3, Crown, Gamepad2, Users } from "lucide-react";
 import { MinecraftBadge } from "@/components/ui/minecraft-badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 // Dummy data for leaderboards
 const smpPlayers = [
@@ -32,8 +35,173 @@ const cpvpPlayers = [
   { rank: 10, name: "CombatKing", kills: 8421, deaths: 2876, kd: "2.93", wins: 1098 },
 ];
 
+// Combine all players for search
+const allPlayers = [
+  ...smpPlayers.map(player => ({ ...player, mode: 'SMP' })),
+  ...cpvpPlayers.map(player => ({ ...player, mode: 'CPVP' }))
+];
+
+// Player stats - extended data for the profile dialog
+const playerStats = {
+  "DragonSlayer": {
+    joinDate: "15/03/2022",
+    totalPlaytime: "1423 saat",
+    achievements: ["Kral #1 - 3 ay üst üste!", "Ejderha Katili", "Elmas Avcısı"],
+    rank: "MVP+",
+    level: 98,
+    kills: 5243,
+    deaths: 1245,
+    kd: "4.21",
+    wins: 873,
+    mode: "SMP"
+  },
+  "BladeOfGlory": {
+    joinDate: "22/08/2022",
+    totalPlaytime: "1654 saat",
+    achievements: ["PvP Ustası", "Gladyatör", "Şampiyon"],
+    rank: "MVP",
+    level: 97,
+    kills: 12453,
+    deaths: 2134,
+    kd: "5.84",
+    wins: 1523,
+    mode: "CPVP"
+  }
+};
+
+type PlayerDialogProps = {
+  playerName: string;
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+const PlayerDialog = ({ playerName, isOpen, onClose }: PlayerDialogProps) => {
+  // Get player data from our stats object, or use default values
+  const player = playerStats[playerName] || {
+    joinDate: "Bilinmiyor",
+    totalPlaytime: "Bilinmiyor",
+    achievements: [],
+    rank: "Oyuncu",
+    level: 0,
+    kills: 0,
+    deaths: 0,
+    kd: "0",
+    wins: 0,
+    mode: "Bilinmiyor"
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="glass-card border-minecraft-primary/30 max-w-2xl">
+        <DialogHeader className="border-b border-white/10 pb-4">
+          <div className="flex items-center">
+            <img
+              src={`https://mc-heads.net/avatar/${playerName}`}
+              alt={playerName}
+              className="w-16 h-16 mr-4 rounded-md border-2 border-white/20"
+            />
+            <div>
+              <DialogTitle className="text-2xl font-minecraft text-minecraft-primary">{playerName}</DialogTitle>
+              <div className="flex gap-2 mt-2">
+                <MinecraftBadge variant="rank">{player.rank}</MinecraftBadge>
+                <MinecraftBadge variant="mode">{player.mode}</MinecraftBadge>
+              </div>
+            </div>
+          </div>
+        </DialogHeader>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader className="pb-2">
+              <h3 className="text-lg font-bold text-white">Genel İstatistikler</h3>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-white/70">Katılım Tarihi:</span>
+                  <span className="text-white">{player.joinDate}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">Toplam Oynama Süresi:</span>
+                  <span className="text-white">{player.totalPlaytime}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">Seviye:</span>
+                  <span className="text-white font-bold text-minecraft-primary">{player.level}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader className="pb-2">
+              <h3 className="text-lg font-bold text-white">Savaş İstatistikleri</h3>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-white/70">Öldürme:</span>
+                  <span className="text-white">{player.kills.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">Ölüm:</span>
+                  <span className="text-white">{player.deaths.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">K/D:</span>
+                  <span className="text-white">{player.kd}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">Galibiyet:</span>
+                  <span className="text-white">{player.wins.toLocaleString()}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <div className="border-t border-white/10 pt-4">
+          <h3 className="text-lg font-bold text-white mb-3">Başarımlar</h3>
+          <div className="flex flex-wrap gap-2">
+            {player.achievements && player.achievements.length > 0 ? (
+              player.achievements.map((achievement, index) => (
+                <MinecraftBadge key={index} variant="achievement">{achievement}</MinecraftBadge>
+              ))
+            ) : (
+              <p className="text-white/50">Henüz başarım kazanılmamış.</p>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 const LeaderboardPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTab, setSelectedTab] = useState("smp");
+  const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
+  
+  // Search functionality
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    
+    const foundPlayer = allPlayers.find(player => 
+      player.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    if (foundPlayer) {
+      // Show player profile dialog
+      setSelectedPlayer(foundPlayer.name);
+      
+      // Also switch to the appropriate tab
+      setSelectedTab(foundPlayer.mode.toLowerCase());
+    }
+  };
+
+  const handlePlayerClick = (playerName: string) => {
+    setSelectedPlayer(playerName);
+  };
   
   return (
     <div className="pt-20 pb-12">
@@ -56,12 +224,22 @@ const LeaderboardPage = () => {
               className="w-full bg-minecraft-darker border border-white/10 rounded-md py-2 pl-10 pr-4 text-white focus:outline-none focus:border-minecraft-primary"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
           </div>
-          <Button className="ml-4 minecraft-btn">
+          <Button className="ml-4 minecraft-btn" onClick={handleSearch}>
             <span className="btn-content">Ara</span>
           </Button>
         </div>
+        
+        {/* Player Dialog - Opens when a player is selected */}
+        {selectedPlayer && (
+          <PlayerDialog 
+            playerName={selectedPlayer} 
+            isOpen={!!selectedPlayer} 
+            onClose={() => setSelectedPlayer(null)} 
+          />
+        )}
         
         {/* Top Players Showcase */}
         <div className="mb-10">
@@ -69,7 +247,10 @@ const LeaderboardPage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 2nd Place */}
-            <div className="glass-card p-6 text-center order-2 md:order-1 transform hover:scale-105 transition-transform duration-300">
+            <div 
+              className="glass-card p-6 text-center order-2 md:order-1 transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+              onClick={() => handlePlayerClick("Enderman_69")}
+            >
               <div className="relative inline-block mb-4">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center mx-auto">
                   <img
@@ -98,7 +279,10 @@ const LeaderboardPage = () => {
             </div>
             
             {/* 1st Place */}
-            <div className="glass-card p-6 text-center border border-minecraft-primary/30 order-1 md:order-2 transform hover:scale-105 transition-transform duration-300">
+            <div 
+              className="glass-card p-6 text-center border border-minecraft-primary/30 order-1 md:order-2 transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+              onClick={() => handlePlayerClick("DragonSlayer")}
+            >
               <div className="relative inline-block mb-4">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center mx-auto ring-4 ring-yellow-500/30">
                   <img
@@ -130,7 +314,10 @@ const LeaderboardPage = () => {
             </div>
             
             {/* 3rd Place */}
-            <div className="glass-card p-6 text-center order-3 transform hover:scale-105 transition-transform duration-300">
+            <div 
+              className="glass-card p-6 text-center order-3 transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+              onClick={() => handlePlayerClick("MythicCrafter")}
+            >
               <div className="relative inline-block mb-4">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-700 to-amber-500 flex items-center justify-center mx-auto">
                   <img
@@ -163,7 +350,7 @@ const LeaderboardPage = () => {
         {/* Leaderboard Tabs */}
         <h2 className="section-title">Oyun Modları Sıralamaları</h2>
         
-        <Tabs defaultValue="smp" className="mb-10">
+        <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="mb-10">
           <TabsList className="bg-minecraft-dark grid grid-cols-2 mb-6">
             <TabsTrigger value="smp" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white">
               <Gamepad2 size={16} className="mr-2" /> SMP
@@ -188,7 +375,11 @@ const LeaderboardPage = () => {
                   </thead>
                   <tbody>
                     {smpPlayers.map((player, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors`}>
+                      <tr 
+                        key={index} 
+                        className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors cursor-pointer`}
+                        onClick={() => handlePlayerClick(player.name)}
+                      >
                         <td className="px-4 py-3 whitespace-nowrap">
                           {player.rank === 1 && (
                             <span className="inline-flex items-center justify-center bg-yellow-600/50 w-6 h-6 rounded-full">
@@ -258,7 +449,11 @@ const LeaderboardPage = () => {
                   </thead>
                   <tbody>
                     {cpvpPlayers.map((player, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors`}>
+                      <tr 
+                        key={index} 
+                        className={`${index % 2 === 0 ? 'bg-white/5' : ''} hover:bg-minecraft-primary/10 transition-colors cursor-pointer`}
+                        onClick={() => handlePlayerClick(player.name)}
+                      >
                         <td className="px-4 py-3 whitespace-nowrap">
                           {player.rank === 1 && (
                             <span className="inline-flex items-center justify-center bg-yellow-600/50 w-6 h-6 rounded-full">
@@ -316,7 +511,7 @@ const LeaderboardPage = () => {
           </TabsContent>
         </Tabs>
         
-        {/* Join Server CTA */}
+        {/* Join Server CTA - Updated button text as requested */}
         <div className="glass-card p-8 text-center">
           <h2 className="font-minecraft text-2xl text-white mb-4">Sıralamalarda Yerini Al!</h2>
           <p className="text-white/80 mb-6 max-w-2xl mx-auto">
@@ -324,10 +519,10 @@ const LeaderboardPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button className="minecraft-btn">
-              <span className="btn-content">Şimdi Katıl</span>
+              <span className="btn-content">Kayıt Formu</span>
             </Button>
             <Button variant="outline" className="border-minecraft-primary/50 text-minecraft-primary hover:bg-minecraft-primary/10">
-              Daha Fazla Bilgi
+              Sıralama Hakkında
             </Button>
           </div>
         </div>
@@ -337,4 +532,3 @@ const LeaderboardPage = () => {
 };
 
 export default LeaderboardPage;
-
