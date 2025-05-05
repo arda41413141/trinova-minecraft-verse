@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import PasswordResetForm from "./PasswordResetForm";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 type AuthDialogProps = {
@@ -15,6 +16,7 @@ type AuthDialogProps = {
 const AuthDialog = ({ open, onOpenChange, defaultView = "login" }: AuthDialogProps) => {
   const [view, setView] = useState<"login" | "register">(defaultView);
   const [showResetForm, setShowResetForm] = useState(false);
+  const [showForgotPasswordForm, setShowForgotPasswordForm] = useState(false);
   const isMobile = useIsMobile();
 
   const handleResetSuccess = () => {
@@ -22,7 +24,12 @@ const AuthDialog = ({ open, onOpenChange, defaultView = "login" }: AuthDialogPro
     setView("login");
   };
 
-  // Show reset form or main auth dialog
+  const handleForgotPasswordSuccess = () => {
+    setShowForgotPasswordForm(false);
+    setView("login");
+  };
+
+  // Show reset password form
   if (showResetForm) {
     return (
       <PasswordResetForm 
@@ -34,6 +41,26 @@ const AuthDialog = ({ open, onOpenChange, defaultView = "login" }: AuthDialogPro
           onOpenChange(isOpen);
         }}
         onSuccess={handleResetSuccess}
+      />
+    );
+  }
+
+  // Show forgot password form
+  if (showForgotPasswordForm) {
+    return (
+      <ForgotPasswordForm 
+        open={open} 
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            setShowForgotPasswordForm(false);
+          }
+          onOpenChange(isOpen);
+        }}
+        onSuccess={handleForgotPasswordSuccess}
+        onBackToLogin={() => {
+          setShowForgotPasswordForm(false);
+          setView("login");
+        }}
       />
     );
   }
@@ -57,6 +84,7 @@ const AuthDialog = ({ open, onOpenChange, defaultView = "login" }: AuthDialogPro
             <LoginForm 
               onSuccess={() => onOpenChange(false)} 
               switchToRegister={() => setView("register")}
+              onForgotPassword={() => setShowForgotPasswordForm(true)}
             />
           ) : (
             <RegisterForm 
