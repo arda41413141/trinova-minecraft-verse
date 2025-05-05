@@ -23,6 +23,7 @@ interface AuthContextType {
 // For demo purposes, we'll use localStorage
 const STORAGE_KEY = "trinova_user";
 const SAVED_EMAILS_KEY = "trinova_saved_emails";
+const USER_CREDENTIALS_KEY = "trinova_user_credentials";
 const PASSWORD_RESET_TOKENS_KEY = "password_reset_tokens";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,12 +61,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     // Load credentials (for demo purposes)
-    const storedCredentials = localStorage.getItem("user_credentials");
+    const storedCredentials = localStorage.getItem(USER_CREDENTIALS_KEY);
     if (storedCredentials) {
       try {
         setUserCredentials(JSON.parse(storedCredentials));
       } catch (error) {
-        localStorage.removeItem("user_credentials");
+        localStorage.removeItem(USER_CREDENTIALS_KEY);
       }
     }
 
@@ -92,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Update stored credentials when they change
   useEffect(() => {
     if (Object.keys(userCredentials).length > 0) {
-      localStorage.setItem("user_credentials", JSON.stringify(userCredentials));
+      localStorage.setItem(USER_CREDENTIALS_KEY, JSON.stringify(userCredentials));
     }
   }, [userCredentials]);
 
@@ -150,6 +151,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Simulated registration - in a real app, this would call an API
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
+        // Check if email already exists
+        if (userCredentials[email]) {
+          reject(new Error("Email already registered"));
+          return;
+        }
+
         if (email && password) {
           // Store credentials for this demo
           setUserCredentials(prev => ({
