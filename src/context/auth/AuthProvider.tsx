@@ -1,32 +1,18 @@
 
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-
-interface User {
-  id: string;
-  email: string;
-  username: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, username: string) => Promise<void>;
-  logout: () => Promise<void>;
-  forgotPassword: (email: string) => Promise<void>;
-  resetPassword: (email: string, resetToken: string, newPassword: string) => Promise<void>;
-  isAuthenticated: boolean;
-  savedEmails: string[];
-}
-
-// For demo purposes, we'll use localStorage
-const STORAGE_KEY = "trinova_user";
-const SAVED_EMAILS_KEY = "trinova_saved_emails";
-const USER_CREDENTIALS_KEY = "trinova_user_credentials";
-const PASSWORD_RESET_TOKENS_KEY = "password_reset_tokens";
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext } from "./AuthContext";
+import { User } from "./types";
+import { 
+  getStoredUser, 
+  getSavedEmails, 
+  getStoredCredentials, 
+  getStoredResetTokens,
+  storeUser,
+  storeSavedEmails,
+  storeCredentials,
+  storeResetTokens
+} from "./authUtils";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -34,51 +20,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [savedEmails, setSavedEmails] = useState<string[]>([]);
 
   // For demo purposes - store user credentials and reset tokens
-  // In a real app, this would be handled securely by a backend
   const [userCredentials, setUserCredentials] = useState<Record<string, { password: string, username: string }>>({});
   const [passwordResetTokens, setPasswordResetTokens] = useState<Record<string, string>>({});
 
   // Initialize auth state from localStorage
   useEffect(() => {
     // Load user
-    const storedUser = localStorage.getItem(STORAGE_KEY);
+    const storedUser = getStoredUser();
     if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        localStorage.removeItem(STORAGE_KEY);
-      }
+      setUser(storedUser);
     }
 
     // Load saved emails
-    const storedEmails = localStorage.getItem(SAVED_EMAILS_KEY);
-    if (storedEmails) {
-      try {
-        setSavedEmails(JSON.parse(storedEmails));
-      } catch (error) {
-        localStorage.removeItem(SAVED_EMAILS_KEY);
-      }
-    }
+    const storedEmails = getSavedEmails();
+    setSavedEmails(storedEmails);
 
     // Load credentials (for demo purposes)
-    const storedCredentials = localStorage.getItem(USER_CREDENTIALS_KEY);
-    if (storedCredentials) {
-      try {
-        setUserCredentials(JSON.parse(storedCredentials));
-      } catch (error) {
-        localStorage.removeItem(USER_CREDENTIALS_KEY);
-      }
-    }
+    const storedCredentials = getStoredCredentials();
+    setUserCredentials(storedCredentials);
 
     // Load reset tokens (for demo purposes)
-    const storedTokens = localStorage.getItem(PASSWORD_RESET_TOKENS_KEY);
-    if (storedTokens) {
-      try {
-        setPasswordResetTokens(JSON.parse(storedTokens));
-      } catch (error) {
-        localStorage.removeItem(PASSWORD_RESET_TOKENS_KEY);
-      }
-    }
+    const storedTokens = getStoredResetTokens();
+    setPasswordResetTokens(storedTokens);
 
     setLoading(false);
   }, []);
@@ -86,21 +49,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Update saved emails when they change
   useEffect(() => {
     if (savedEmails.length > 0) {
-      localStorage.setItem(SAVED_EMAILS_KEY, JSON.stringify(savedEmails));
+      storeSavedEmails(savedEmails);
     }
   }, [savedEmails]);
 
   // Update stored credentials when they change
   useEffect(() => {
     if (Object.keys(userCredentials).length > 0) {
-      localStorage.setItem(USER_CREDENTIALS_KEY, JSON.stringify(userCredentials));
+      storeCredentials(userCredentials);
     }
   }, [userCredentials]);
 
   // Update stored reset tokens when they change
   useEffect(() => {
     if (Object.keys(passwordResetTokens).length > 0) {
-      localStorage.setItem(PASSWORD_RESET_TOKENS_KEY, JSON.stringify(passwordResetTokens));
+      storeResetTokens(passwordResetTokens);
     }
   }, [passwordResetTokens]);
 
@@ -123,7 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             username: "DemoUser",
           };
           setUser(user);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+          storeUser(user);
           saveEmailToList(email);
           toast.success("Giriş başarılı!");
           resolve();
@@ -136,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             username: userCredentials[email].username,
           };
           setUser(user);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+          storeUser(user);
           saveEmailToList(email);
           toast.success("Giriş başarılı!");
           resolve();
@@ -170,7 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             username,
           };
           setUser(user);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+          storeUser(user);
           saveEmailToList(email);
           toast.success("Kayıt başarılı! Hoş geldiniz.");
           resolve();
@@ -184,7 +147,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     // Clear user state and localStorage
     setUser(null);
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem("trinova_user");
     toast.info("Çıkış yapıldı");
   };
 
@@ -265,12 +228,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };

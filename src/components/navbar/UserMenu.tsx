@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/auth";
 import { useCart } from "@/context/CartContext";
 import { Link } from "react-router-dom";
 import { User, ChevronDown, Crown } from "lucide-react";

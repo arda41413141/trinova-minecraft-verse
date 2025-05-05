@@ -16,7 +16,7 @@ import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/auth";
 import { CartProvider } from "./context/cart";
 import { TicketsProvider } from "./hooks/use-tickets";
 import ErrorBoundary from "./components/ErrorBoundary";
