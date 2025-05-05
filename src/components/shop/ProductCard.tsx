@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Coins, Crown, Percent, Tag } from "lucide-react";
+import { Coins, Crown, Percent, Tag, Sparkles, Diamond, Star } from "lucide-react";
 import { Product } from "@/context/cart/types";
 
 interface ProductCardProps {
@@ -12,8 +12,13 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
+  const isVIP = product.category === "rank";
+  const cardClasses = `glass-card overflow-hidden border-minecraft-primary/20 flex flex-col ${
+    product.isSpecialOffer ? 'special-offer-card' : ''
+  } ${isVIP ? 'vip-card' : ''}`;
+
   return (
-    <Card className={`glass-card overflow-hidden border-minecraft-primary/20 flex flex-col ${product.isSpecialOffer ? 'special-offer-card' : ''}`}>
+    <Card className={cardClasses}>
       <div className="relative">
         {product.isSpecialOffer && (
           <div className="absolute top-0 right-0 p-2 z-10">
@@ -22,26 +27,59 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
             </Badge>
           </div>
         )}
-        <div className={`aspect-square ${product.isSpecialOffer ? 'bg-gradient-to-b from-purple-500/20 to-pink-500/20' : 'bg-gradient-to-b from-minecraft-primary/5 to-minecraft-primary/20'} flex items-center justify-center p-8`}>
+        <div className={`aspect-square ${
+          isVIP 
+            ? 'bg-gradient-to-b from-purple-500/30 to-purple-900/40 vip-background' 
+            : product.isSpecialOffer 
+              ? 'bg-gradient-to-b from-purple-500/20 to-pink-500/20' 
+              : 'bg-gradient-to-b from-minecraft-primary/5 to-minecraft-primary/20'
+        } flex items-center justify-center p-8`}>
+          {isVIP && (
+            <div className="absolute inset-0 vip-sparkle-effect"></div>
+          )}
           <img 
             src={product.image || "/placeholder.svg"} 
             alt={product.name} 
-            className={`max-h-full max-w-full object-contain transition-transform hover:scale-110 duration-300 ${product.isSpecialOffer ? 'animate-pulse-gentle' : ''}`}
+            className={`max-h-full max-w-full object-contain transition-transform duration-300 ${
+              isVIP ? 'hover:scale-110 animate-float' : 
+              product.isSpecialOffer ? 'hover:scale-105 animate-pulse-gentle' : 
+              'hover:scale-105'
+            }`}
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.onerror = null;
               target.src = "/placeholder.svg";
             }}
           />
+          {isVIP && (
+            <div className="absolute bottom-2 right-2">
+              {product.name.includes("Premium") ? (
+                <Diamond size={24} className="text-yellow-400 animate-pulse-gentle" />
+              ) : product.name.includes("Elite") ? (
+                <Crown size={24} className="text-yellow-400 animate-pulse-gentle" />
+              ) : (
+                <Star size={24} className="text-yellow-400 animate-pulse-gentle" />
+              )}
+            </div>
+          )}
         </div>
       </div>
       
-      <CardHeader className={product.isSpecialOffer ? 'bg-gradient-to-r from-purple-900/20 to-pink-900/20' : ''}>
+      <CardHeader className={
+        isVIP 
+          ? 'bg-gradient-to-r from-purple-900/40 to-pink-900/30 glow-effect' 
+          : product.isSpecialOffer 
+            ? 'bg-gradient-to-r from-purple-900/20 to-pink-900/20' 
+            : ''
+      }>
         <div className="flex items-center justify-between">
           <CardTitle className="font-minecraft text-minecraft-primary">
             {product.name}
           </CardTitle>
-          {product.isSpecialOffer && (
+          {isVIP && (
+            <Sparkles size={16} className="text-yellow-400 animate-pulse-gentle" />
+          )}
+          {product.isSpecialOffer && !isVIP && (
             <Tag size={16} className="text-yellow-400" />
           )}
         </div>
@@ -83,7 +121,13 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       
       <CardFooter>
         <Button 
-          className={`w-full ${product.isSpecialOffer ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' : 'minecraft-btn'}`} 
+          className={`w-full ${
+            isVIP 
+              ? 'bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 hover:from-purple-700 hover:to-pink-700 sparkle-button'
+              : product.isSpecialOffer 
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
+                : 'minecraft-btn'
+          }`} 
           onClick={() => onAddToCart(product)}
         >
           <span className="btn-content">Sepete Ekle</span>

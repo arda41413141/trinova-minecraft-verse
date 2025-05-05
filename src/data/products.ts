@@ -1,3 +1,4 @@
+
 import { Product } from "../context/cart/types";
 
 export const products: Product[] = [
@@ -5,13 +6,34 @@ export const products: Product[] = [
     id: "1",
     name: "VIP Paketi",
     price: 29.99,
-    originalPrice: 33.32, // Original price before 10% discount
+    originalPrice: 39.99, 
     image: "/images/products/vip-rank.png",
     description: "30 gün boyunca VIP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
     priceType: "money",
     isSpecialOffer: true,
-    discountPercentage: 10
+    discountPercentage: 25
+  },
+  {
+    id: "vip_premium",
+    name: "Premium VIP Paketi",
+    price: 59.99,
+    originalPrice: 79.99,
+    image: "/images/products/premium-vip.png",
+    description: "45 gün süresince Premium VIP özellikleri, özel kostümler ve her hafta ekstra kaynak kazanın.",
+    category: "rank",
+    priceType: "money",
+    isSpecialOffer: true,
+    discountPercentage: 25
+  },
+  {
+    id: "vip_elite",
+    name: "Elite VIP Paketi",
+    price: 99.99,
+    image: "/images/products/elite-vip.png",
+    description: "60 gün Elite VIP ayrıcalıkları, özel komutlar, sınırsız kaynak ve haftalık özel ödüller.",
+    category: "rank",
+    priceType: "money"
   },
   {
     id: "2",
