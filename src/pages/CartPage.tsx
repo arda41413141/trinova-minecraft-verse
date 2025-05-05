@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cart";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/auth";
 import { toast } from "sonner";
 import EmptyCart from '@/components/cart/EmptyCart';
 import CartItemSection from '@/components/cart/CartItemSection';
