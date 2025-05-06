@@ -3,7 +3,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface MinecraftBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "rank" | "item" | "event" | "achievement";
+  variant?: "default" | "rank" | "item" | "event" | "achievement" | "mode";
   size?: "sm" | "default" | "lg";
   children: React.ReactNode;
 }
@@ -22,6 +22,7 @@ const MinecraftBadge = ({
     item: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
     event: "bg-amber-500/20 text-amber-400 border-amber-500/30",
     achievement: "bg-green-500/20 text-green-400 border-green-500/30",
+    mode: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   };
   
   const sizeClasses = {
