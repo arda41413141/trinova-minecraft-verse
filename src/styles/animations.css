@@ -51,6 +51,11 @@
   50% { background-position: 100% 100%; }
 }
 
+@keyframes spin-wheel {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(1800deg); }
+}
+
 .animate-rotate {
   animation: rotate 10s linear infinite;
 }
@@ -94,4 +99,9 @@
 
 .glow-effect {
   animation: glow 3s infinite ease-in-out;
+}
+
+/* Spinning Wheel Styles */
+.wheel-container {
+  transition: transform 5s cubic-bezier(0.2, 0.8, 0.3, 1);
 }

@@ -3,12 +3,18 @@ import { ShoppingCart, Coins } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/cart";
 import { MinecraftBadge } from "../ui/minecraft-badge";
+import WheelButton from "./WheelButton";
 
 const CartButton = () => {
   const { items, coinBalance } = useCart();
   
   return (
     <div className="flex items-center gap-4">
+      {/* Wheel Button */}
+      <div className="hidden sm:block">
+        <WheelButton />
+      </div>
+      
       {/* Coin Balance Display */}
       <div className="hidden sm:flex items-center">
         <MinecraftBadge 
