@@ -1,6 +1,8 @@
+
 import { ShoppingCart, Coins } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/cart";
+import { MinecraftBadge } from "../ui/minecraft-badge";
 
 const CartButton = () => {
   const { items, coinBalance } = useCart();
@@ -8,9 +10,15 @@ const CartButton = () => {
   return (
     <div className="flex items-center gap-4">
       {/* Coin Balance Display */}
-      <div className="hidden sm:flex items-center gap-1 text-yellow-400">
-        <Coins size={16} />
-        <span className="text-sm font-medium">{coinBalance || 0}</span>
+      <div className="hidden sm:flex items-center">
+        <MinecraftBadge 
+          variant="default" 
+          size="sm" 
+          className="bg-yellow-500/20 text-yellow-400 border-yellow-400/30 hover:bg-yellow-500/30 transition-colors"
+        >
+          <Coins size={14} className="mr-1" />
+          <span>{coinBalance || 0}</span>
+        </MinecraftBadge>
       </div>
       
       {/* Shopping Cart */}
