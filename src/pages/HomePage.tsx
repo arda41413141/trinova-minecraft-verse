@@ -1,9 +1,12 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import HeroSlider from "@/components/HeroSlider";
 import ServerStats from "@/components/ServerStats";
 import FeatureCard from "@/components/FeatureCard";
 import { Gamepad2, Users, ShoppingCart, Shield, MessageSquare, BarChart3 } from "lucide-react";
+import GameModeTabs from "@/components/server/GameModeTabs";
+import MinecraftNews from "@/components/home/MinecraftNews";
 
 const HomePage = () => {
   return (
@@ -68,21 +71,7 @@ const HomePage = () => {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <h2 className="section-title">Oyun Modları</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <GameModeCard 
-              title="SMP (Survival MultiPlayer)" 
-              description="Arkadaşlarınla birlikte hayatta kalmaya çalış, evler ve şehirler inşa et, keşfet ve maceraya atıl!"
-              image="/images/survival.jpg"
-              link="/server?mode=smp"
-            />
-            <GameModeCard 
-              title="CPVP (Crystal PvP)" 
-              description="End kristalleriyle dolu heyecan verici PvP deneyimi! Stratejik savaşlar ve yoğun mücadeleler seni bekliyor."
-              image="/images/bedwars.jpg"
-              link="/server?mode=cpvp"
-            />
-          </div>
+          <GameModeTabs defaultValue="smp" />
           
           <div className="text-center mt-10">
             <Link to="/server">
@@ -93,6 +82,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      
+      {/* News Section */}
+      <MinecraftNews />
       
       {/* Discord Banner */}
       <section className="py-16 bg-gradient-purple relative overflow-hidden">
@@ -119,35 +111,5 @@ const HomePage = () => {
   );
 };
 
-const GameModeCard = ({ 
-  title, 
-  description, 
-  image, 
-  link 
-}: {
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-}) => {
-  return (
-    <Link to={link} className="block">
-      <div className="relative h-80 rounded-lg overflow-hidden group">
-        <div 
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-          style={{ backgroundImage: `url(${image || "https://via.placeholder.com/500x300?text=" + title})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80" />
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <h3 className="font-minecraft text-xl text-minecraft-primary mb-2">{title}</h3>
-          <p className="text-white/80 text-sm mb-4">{description}</p>
-          <Button variant="outline" className="text-white border-white/30 hover:bg-white/10">
-            Keşfet
-          </Button>
-        </div>
-      </div>
-    </Link>
-  );
-};
-
 export default HomePage;
+
