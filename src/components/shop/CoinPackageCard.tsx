@@ -39,7 +39,7 @@ const CoinPackageCard = ({ package: pkg, onAddToCart }: CoinPackageCardProps) =>
       <CardHeader className={`${pkg.isSpecialOffer ? 'bg-gradient-to-r from-yellow-900/20 to-amber-900/20' : 'bg-yellow-900/20'}`}>
         <div className="flex items-center justify-between">
           <CardTitle className="font-minecraft text-yellow-400 text-center">
-            {pkg.name}
+            {pkg.coinAmount} Coin
           </CardTitle>
           {pkg.isSpecialOffer && (
             <Tag size={16} className="text-yellow-400" />

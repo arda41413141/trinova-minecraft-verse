@@ -2,6 +2,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
@@ -28,6 +29,7 @@ export const WheelDialog = ({ children, trigger }: WheelDialogProps) => {
           "shadow-2xl shadow-purple-500/20"
         )}
       >
+        <DialogTitle className="sr-only">Şans Çarkı</DialogTitle>
         <SpinningWheel onClose={() => setOpen(false)} />
       </DialogContent>
     </Dialog>

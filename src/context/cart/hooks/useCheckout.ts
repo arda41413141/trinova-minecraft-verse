@@ -33,14 +33,22 @@ export const useCheckout = ({
 
         // Add coins if it's a coin package
         if (product.category === "credit") {
-          // Extract coin amount from the product name (like "1000 Coin" -> 1000)
-          const coinAmountMatch = product.name.match(/(\d+)/);
-          if (coinAmountMatch && coinAmountMatch[1]) {
-            const coinAmount = parseInt(coinAmountMatch[1]) * quantity;
+          // Use coinAmount from the product directly if available
+          if (product.coinAmount) {
+            const coinAmount = product.coinAmount * quantity;
             addCoins(coinAmount);
+            toast.success(`${coinAmount} Coin hesabınıza eklendi!`);
+          } else {
+            // Extract coin amount from the product name (like "1000 Coin" -> 1000)
+            const coinAmountMatch = product.name.match(/(\d+)/);
+            if (coinAmountMatch && coinAmountMatch[1]) {
+              const coinAmount = parseInt(coinAmountMatch[1]) * quantity;
+              addCoins(coinAmount);
+              toast.success(`${coinAmount} Coin hesabınıza eklendi!`);
+            }
           }
         }
-        // Process coin purchases
+        // Process coin purchases (items bought with coins)
         else if (product.priceType === "coin") {
           // Check if user has enough coins
           const totalCost = product.price * quantity;
