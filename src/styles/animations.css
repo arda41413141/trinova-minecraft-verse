@@ -56,6 +56,20 @@
   100% { transform: rotate(1800deg); }
 }
 
+@keyframes wheel-tick {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .animate-rotate {
   animation: rotate 10s linear infinite;
 }
@@ -70,6 +84,21 @@
 
 .animate-glow {
   animation: glow 3s infinite ease-in-out;
+}
+
+.animate-wheel-tick {
+  animation: wheel-tick 1s infinite ease-in-out;
+}
+
+.animate-shine {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 1.5s infinite linear;
 }
 
 .vip-card {
@@ -103,5 +132,18 @@
 
 /* Spinning Wheel Styles */
 .wheel-container {
-  transition: transform 5s cubic-bezier(0.2, 0.8, 0.3, 1);
+  transition: transform 6s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.wheel-container.spinning::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 40%, rgba(255, 255, 255, 0.1) 60%, transparent 70%);
+  pointer-events: none;
+  z-index: 10;
+  animation: pulse-gentle 1s infinite;
 }

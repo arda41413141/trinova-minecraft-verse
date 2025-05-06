@@ -2,11 +2,11 @@
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
 import SpinningWheel from "./SpinningWheel";
+import { cn } from "@/lib/utils";
 
 interface WheelDialogProps {
   children: ReactNode;
@@ -21,7 +21,13 @@ export const WheelDialog = ({ children, trigger }: WheelDialogProps) => {
       <DialogTrigger asChild>
         {trigger || children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-b from-minecraft-dark/95 to-black/95 border-minecraft-primary/50">
+      <DialogContent 
+        className={cn(
+          "sm:max-w-md max-h-[90vh] overflow-y-auto border-minecraft-primary/50",
+          "bg-gradient-to-b from-minecraft-dark/95 to-black/95",
+          "shadow-2xl shadow-purple-500/20"
+        )}
+      >
         <SpinningWheel onClose={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
