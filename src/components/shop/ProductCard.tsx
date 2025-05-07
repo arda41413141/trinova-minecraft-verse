@@ -15,11 +15,12 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-interface ProductCardProps {
+export interface ProductCardProps {
   product: Product;
+  onAddToCart?: (product: Product) => void;
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
@@ -32,8 +33,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToCart = () => {
     setIsAdding(true);
     setTimeout(() => {
-      addItem(product, quantity);
-      toast.success(`${product.name} sepete eklendi`);
+      if (onAddToCart) {
+        onAddToCart(product);
+      } else {
+        addItem(product, quantity);
+        toast.success(`${product.name} sepete eklendi`);
+      }
       setIsAdding(false);
       setQuantity(1);
     }, 500);

@@ -72,8 +72,10 @@ const ProfilePage = () => {
     return null; // Will be redirected by effect
   }
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+  const formatDate = (date: Date | string) => {
+    if (typeof date === "string") {
+      return new Date(date).toLocaleDateString('tr-TR');
+    }
     return date.toLocaleDateString('tr-TR');
   };
 

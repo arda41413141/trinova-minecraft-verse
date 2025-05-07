@@ -9,7 +9,7 @@ import BalanceTab from "@/components/shop/BalanceTab";
 import { useSearchParams } from "react-router-dom";
 
 const ShopPage = () => {
-  const { addItem, balance } = useCart();
+  const { addItem } = useCart();
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>("products");
   
@@ -45,7 +45,7 @@ const ShopPage = () => {
         </TabsContent>
         
         <TabsContent value="balance" className="mt-6">
-          <BalanceTab balance={balance} onAddToCart={handleAddToCart} />
+          <BalanceTab />
         </TabsContent>
       </Tabs>
     </div>

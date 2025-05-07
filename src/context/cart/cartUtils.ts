@@ -13,12 +13,11 @@ export const calculateTotalPrice = (items: { product: Product; quantity: number 
 
 export const createPurchasedItem = (product: Product): PurchasedItem => {
   return {
-    id: product.id,
-    name: product.name,
-    purchaseDate: new Date().toISOString(),
+    ...product,
+    purchaseDate: new Date(),
     // Set expiry date for VIP ranks (30 days from purchase)
     expiryDate: product.category === "rank" 
-      ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() 
+      ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) 
       : undefined
   };
 };
