@@ -1,73 +1,112 @@
 
-import React from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Wallet, Percent, Tag } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { BalancePackage } from "@/types/shop";
+import { useCart } from "@/context/CartContext";
+import { Coins, Plus } from "lucide-react";
+import { toast } from "sonner";
+import confetti from "canvas-confetti";
 
 interface BalancePackageCardProps {
-  package: BalancePackage;
-  onAddToCart: (pkg: BalancePackage) => void;
+  balancePackage: BalancePackage;
 }
 
-const BalancePackageCard = ({ package: pkg, onAddToCart }: BalancePackageCardProps) => {
+export const BalancePackageCard: React.FC<BalancePackageCardProps> = ({ balancePackage }) => {
+  const { addBalance } = useCart();
+  const [loading, setLoading] = useState(false);
+
+  const handlePurchase = () => {
+    setLoading(true);
+    
+    // Simulate a payment process
+    setTimeout(() => {
+      const totalAmount = balancePackage.amount + (balancePackage.bonusAmount || 0);
+      
+      addBalance(totalAmount, `${balancePackage.name} satın alındı`);
+      
+      // Show confetti for a fun effect
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      
+      toast.success(`${totalAmount} TL bakiyenize eklendi!`, {
+        description: "Bakiyeniz başarıyla yüklendi"
+      });
+      
+      setLoading(false);
+    }, 1500);
+  };
+
+  const actualPrice = balancePackage.discountPercentage 
+    ? balancePackage.price * (1 - balancePackage.discountPercentage / 100) 
+    : balancePackage.price;
+
   return (
-    <Card className={`glass-card overflow-hidden ${pkg.isSpecialOffer ? 'border-green-500/50 special-offer-card' : 'border-green-500/30'} flex flex-col hover:border-green-400 transition-all`}>
-      <div className="relative">
-        {pkg.isSpecialOffer && (
-          <div className="absolute top-0 right-0 p-2 z-10">
-            <Badge variant="rainbow" className="flex items-center gap-1">
-              <Percent size={12} /> %{pkg.discountPercentage} İndirim
-            </Badge>
+    <Card className={`border-0 overflow-hidden ${balancePackage.isFeatured ? 'bg-gradient-to-br from-minecraft-primary/20 to-minecraft-dark ring-1 ring-minecraft-primary/30' : 'bg-minecraft-darker'}`}>
+      <CardContent className="p-0">
+        <div className="px-5 pt-5 pb-4">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="font-bold text-lg">{balancePackage.name}</h3>
+            {balancePackage.isFeatured && (
+              <Badge variant="secondary" className="bg-minecraft-primary/20 text-minecraft-primary">Popüler</Badge>
+            )}
           </div>
-        )}
-        <div className={`aspect-square ${pkg.isSpecialOffer ? 'bg-gradient-to-b from-green-600/20 to-green-500/20' : 'bg-gradient-to-b from-green-600/10 to-green-500/20'} flex items-center justify-center p-8`}>
-          <img 
-            src={pkg.image || "/placeholder.svg"} 
-            alt={pkg.name} 
-            className={`max-h-full max-w-full object-contain transition-transform hover:scale-110 duration-300 ${pkg.isSpecialOffer ? 'animate-float' : ''}`}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = "/placeholder.svg";
-            }}
-          />
-        </div>
-      </div>
-      
-      <CardHeader className={`${pkg.isSpecialOffer ? 'bg-gradient-to-r from-green-900/20 to-green-900/20' : 'bg-green-900/20'}`}>
-        <div className="flex items-center justify-between">
-          <CardTitle className="font-minecraft text-green-400 text-center">
-            {pkg.balanceAmount} TL
-          </CardTitle>
-          {pkg.isSpecialOffer && (
-            <Tag size={16} className="text-green-400" />
+          
+          <div className="flex items-center mb-2">
+            <Coins className="h-5 w-5 text-yellow-400 mr-2" />
+            <span className="text-2xl font-bold">{balancePackage.amount}</span>
+            {balancePackage.bonusAmount && (
+              <div className="ml-2 flex items-center text-green-400">
+                <Plus className="h-3 w-3" />
+                <span className="text-sm font-medium">{balancePackage.bonusAmount}</span>
+              </div>
+            )}
+          </div>
+          
+          {balancePackage.bonusAmount && (
+            <p className="text-xs text-green-400 mb-3">
+              +{balancePackage.bonusAmount} bonus bakiye!
+            </p>
           )}
+          
+          <div className="my-4">
+            <div className="flex items-center">
+              {balancePackage.discountPercentage && (
+                <span className="line-through text-muted-foreground text-sm mr-2">
+                  {balancePackage.price.toFixed(2)} ₺
+                </span>
+              )}
+              <span className="text-xl font-bold">{actualPrice.toFixed(2)} ₺</span>
+              {balancePackage.discountPercentage && (
+                <Badge variant="outline" className="ml-2 bg-green-500/10 text-green-400 border-green-500/20">
+                  %{balancePackage.discountPercentage} indirim
+                </Badge>
+              )}
+            </div>
+          </div>
         </div>
-      </CardHeader>
-      
-      <CardContent className="flex-grow pt-4">
-        <p className="text-muted-foreground text-sm mb-4">{pkg.description}</p>
-        <div className="flex items-center justify-center gap-2">
-          <p className="font-bold text-lg text-white">{pkg.price.toFixed(2)} ₺</p>
-          {pkg.originalPrice && (
-            <p className="text-sm line-through text-gray-400">{pkg.originalPrice.toFixed(2)} ₺</p>
-          )}
+        
+        <div className="mt-auto">
+          <Button 
+            className="w-full rounded-t-none h-12" 
+            disabled={loading}
+            onClick={handlePurchase}
+          >
+            {loading ? (
+              <span className="flex items-center">
+                <div className="animate-spin mr-2 h-4 w-4 border-2 border-b-transparent rounded-full"></div>
+                İşleniyor...
+              </span>
+            ) : (
+              "Satın Al"
+            )}
+          </Button>
         </div>
       </CardContent>
-      
-      <CardFooter>
-        <Button 
-          className={`w-full ${pkg.isSpecialOffer ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white' : 'bg-green-600 hover:bg-green-700 text-white'}`}
-          onClick={() => onAddToCart(pkg)}
-        >
-          <Wallet size={16} className="mr-2" />
-          Satın Al
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
-
-export default BalancePackageCard;

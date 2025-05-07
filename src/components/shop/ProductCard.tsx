@@ -1,140 +1,134 @@
 
-import React from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Coins, Crown, Percent, Tag, Sparkles, Diamond, Star } from "lucide-react";
 import { Product } from "@/context/cart/types";
+import { useCart } from "@/context/CartContext";
+import { Badge } from "@/components/ui/badge";
+import { ShoppingCart, Info, Coins } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
-  const isVIP = product.category === "rank";
-  const cardClasses = `glass-card overflow-hidden border-minecraft-primary/20 flex flex-col ${
-    product.isSpecialOffer ? 'special-offer-card' : ''
-  } ${isVIP ? 'vip-card' : ''}`;
+export const ProductCard = ({ product }: ProductCardProps) => {
+  const { addItem } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+
+  // Calculate the actual price after discount
+  const actualPrice = product.isSpecialOffer && product.discountPercentage
+    ? product.price - (product.price * product.discountPercentage / 100)
+    : product.price;
+
+  const handleAddToCart = () => {
+    setIsAdding(true);
+    setTimeout(() => {
+      addItem(product, quantity);
+      toast.success(`${product.name} sepete eklendi`);
+      setIsAdding(false);
+      setQuantity(1);
+    }, 500);
+  };
 
   return (
-    <Card className={cardClasses}>
-      <div className="relative">
+    <Card className={cn(
+      "group overflow-hidden transition-all duration-300 hover:shadow-lg border-minecraft-primary/10",
+      product.isSpecialOffer ? "bg-gradient-to-br from-minecraft-darker to-minecraft-dark" : ""
+    )}>
+      <div className="relative overflow-hidden pt-4 px-4">
         {product.isSpecialOffer && (
-          <div className="absolute top-0 right-0 p-2 z-10">
-            <Badge variant="glow" className="flex items-center gap-1">
-              <Percent size={12} /> %{product.discountPercentage} İndirim
+          <div className="absolute top-0 right-0">
+            <Badge variant="destructive" className="rounded-bl-md rounded-tr-md">
+              %{product.discountPercentage} İndirim
             </Badge>
           </div>
         )}
-        <div className={`aspect-square ${
-          isVIP 
-            ? 'bg-gradient-to-b from-purple-500/30 to-purple-900/40 vip-background' 
-            : product.isSpecialOffer 
-              ? 'bg-gradient-to-b from-purple-500/20 to-pink-500/20' 
-              : 'bg-gradient-to-b from-minecraft-primary/5 to-minecraft-primary/20'
-        } flex items-center justify-center p-8`}>
-          {isVIP && (
-            <div className="absolute inset-0 vip-sparkle-effect"></div>
-          )}
-          <img 
-            src={product.image || "/placeholder.svg"} 
-            alt={product.name} 
-            className={`max-h-full max-w-full object-contain transition-transform duration-300 ${
-              isVIP ? 'hover:scale-110 animate-float' : 
-              product.isSpecialOffer ? 'hover:scale-105 animate-pulse-gentle' : 
-              'hover:scale-105'
-            }`}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = "/placeholder.svg";
-            }}
-          />
-          {isVIP && (
-            <div className="absolute bottom-2 right-2">
-              {product.name.includes("Premium") ? (
-                <Diamond size={24} className="text-yellow-400 animate-pulse-gentle" />
-              ) : product.name.includes("Elite") ? (
-                <Crown size={24} className="text-yellow-400 animate-pulse-gentle" />
-              ) : (
-                <Star size={24} className="text-yellow-400 animate-pulse-gentle" />
-              )}
+        
+        <div className="aspect-square bg-white/5 rounded-lg overflow-hidden flex items-center justify-center p-4 group-hover:scale-105 transition-transform">
+          {product.image ? (
+            <img 
+              src={product.image} 
+              alt={product.name} 
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+              <span className="text-gray-500">Resim yok</span>
             </div>
           )}
         </div>
       </div>
-      
-      <CardHeader className={
-        isVIP 
-          ? 'bg-gradient-to-r from-purple-900/40 to-pink-900/30 glow-effect' 
-          : product.isSpecialOffer 
-            ? 'bg-gradient-to-r from-purple-900/20 to-pink-900/20' 
-            : ''
-      }>
-        <div className="flex items-center justify-between">
-          <CardTitle className="font-minecraft text-minecraft-primary">
-            {product.name}
-          </CardTitle>
-          {isVIP && (
-            <Sparkles size={16} className="text-yellow-400 animate-pulse-gentle" />
-          )}
-          {product.isSpecialOffer && !isVIP && (
-            <Tag size={16} className="text-yellow-400" />
-          )}
+
+      <CardContent className="p-4 pt-5">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-bold text-lg line-clamp-1">{product.name}</h3>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground">
+                  <Info size={14} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left">
+                <p className="max-w-60 text-sm">{product.description}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
-      </CardHeader>
-      
-      <CardContent className="flex-grow">
-        <p className="text-muted-foreground mb-4">{product.description}</p>
-        <div className="flex items-center gap-2">
-          {product.priceType === "coin" ? (
-            <>
-              <Coins size={16} className="text-yellow-400" />
-              <div className="flex items-center gap-2">
-                <p className="font-bold text-lg text-white">{product.price} Coin</p>
-                {product.originalPrice && (
-                  <p className="text-sm line-through text-gray-400">{product.originalPrice} Coin</p>
-                )}
+
+        <p className="text-sm text-muted-foreground mb-3 line-clamp-2 h-10">
+          {product.description}
+        </p>
+
+        <div className="flex items-center justify-between mt-auto">
+          <div className="flex items-center">
+            {product.priceType === "balance" ? (
+              <div className="flex items-center">
+                <Coins size={16} className="text-yellow-400 mr-1" />
+                <span className="font-semibold">{actualPrice}</span>
               </div>
-            </>
-          ) : product.category === "rank" ? (
-            <>
-              <Crown size={16} className="text-yellow-400" />
-              <div className="flex items-center gap-2">
-                <p className="font-bold text-lg text-white">{product.price.toFixed(2)} ₺</p>
-                {product.originalPrice && (
-                  <p className="text-sm line-through text-gray-400">{product.originalPrice.toFixed(2)} ₺</p>
+            ) : (
+              <div>
+                {product.isSpecialOffer && (
+                  <span className="text-sm line-through text-muted-foreground mr-2">
+                    {product.price.toFixed(2)} ₺
+                  </span>
                 )}
+                <span className="font-semibold">{actualPrice.toFixed(2)} ₺</span>
               </div>
-            </>
-          ) : (
-            <div className="flex items-center gap-2">
-              <p className="font-bold text-lg text-white">{product.price.toFixed(2)} ₺</p>
-              {product.originalPrice && (
-                <p className="text-sm line-through text-gray-400">{product.originalPrice.toFixed(2)} ₺</p>
-              )}
-            </div>
-          )}
+            )}
+          </div>
+
+          <Button 
+            size="sm" 
+            className="h-8"
+            disabled={isAdding}
+            onClick={handleAddToCart}
+          >
+            {isAdding ? (
+              <span className="flex items-center">
+                <div className="h-4 w-4 mr-1 border-2 border-t-transparent rounded-full animate-spin" />
+                Ekleniyor
+              </span>
+            ) : (
+              <span className="flex items-center">
+                <ShoppingCart size={14} className="mr-1" />
+                Sepete Ekle
+              </span>
+            )}
+          </Button>
         </div>
       </CardContent>
-      
-      <CardFooter>
-        <Button 
-          className={`w-full ${
-            isVIP 
-              ? 'bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 hover:from-purple-700 hover:to-pink-700 sparkle-button'
-              : product.isSpecialOffer 
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
-                : 'minecraft-btn'
-          }`} 
-          onClick={() => onAddToCart(product)}
-        >
-          <span className="btn-content">Sepete Ekle</span>
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
-
-export default ProductCard;

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/auth";
-import { Loader2 } from "lucide-react";
+import { Loader2, User, Mail, Lock } from "lucide-react";
 
 const registerSchema = z.object({
   username: z.string().min(3, "Kullanıcı adı en az 3 karakter olmalıdır"),
@@ -63,7 +63,10 @@ const RegisterForm = ({ onSuccess, switchToLogin }: RegisterFormProps) => {
               <FormItem>
                 <FormLabel>Kullanıcı Adı</FormLabel>
                 <FormControl>
-                  <Input placeholder="Kullanıcı adınız" {...field} />
+                  <div className="relative">
+                    <User className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input placeholder="Kullanıcı adınız" {...field} className="pl-8" />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -77,7 +80,10 @@ const RegisterForm = ({ onSuccess, switchToLogin }: RegisterFormProps) => {
               <FormItem>
                 <FormLabel>E-posta</FormLabel>
                 <FormControl>
-                  <Input placeholder="ornek@mail.com" {...field} />
+                  <div className="relative">
+                    <Mail className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input placeholder="ornek@mail.com" {...field} className="pl-8" />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +97,10 @@ const RegisterForm = ({ onSuccess, switchToLogin }: RegisterFormProps) => {
               <FormItem>
                 <FormLabel>Şifre</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="******" {...field} />
+                  <div className="relative">
+                    <Lock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input type="password" placeholder="******" {...field} className="pl-8" />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,7 +114,10 @@ const RegisterForm = ({ onSuccess, switchToLogin }: RegisterFormProps) => {
               <FormItem>
                 <FormLabel>Şifre Tekrar</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="******" {...field} />
+                  <div className="relative">
+                    <Lock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input type="password" placeholder="******" {...field} className="pl-8" />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

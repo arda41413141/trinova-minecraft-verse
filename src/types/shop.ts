@@ -2,12 +2,9 @@
 export interface BalancePackage {
   id: string;
   name: string;
+  amount: number;
   price: number;
-  originalPrice?: number;
-  balanceAmount: number;
-  image: string;
-  description: string;
-  isSpecialOffer?: boolean;
   discountPercentage?: number;
-  category?: string;
+  isFeatured?: boolean;
+  bonusAmount?: number;
 }

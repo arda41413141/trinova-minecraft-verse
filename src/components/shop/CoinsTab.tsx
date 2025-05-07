@@ -1,32 +1,55 @@
 
 import React from "react";
-import { coinPackages } from "@/data/products";
-import CoinPackageCard from "./CoinPackageCard";
-import { CoinPackage } from "@/types/shop";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { BalancePackageCard } from "./BalancePackageCard";
+import { BalancePackage } from "@/types/shop";
 
-interface CoinsTabProps {
-  coinBalance: number;
-  onAddToCart: (pkg: CoinPackage) => void;
-}
+const balancePackages: BalancePackage[] = [
+  {
+    id: "balance-1",
+    name: "Başlangıç Paketi",
+    amount: 100,
+    price: 10,
+    isFeatured: true,
+    bonusAmount: 10
+  },
+  {
+    id: "balance-2",
+    name: "Standart Paket",
+    amount: 300,
+    price: 25,
+    discountPercentage: 10,
+    bonusAmount: 50
+  },
+  {
+    id: "balance-3",
+    name: "Premium Paket",
+    amount: 1000,
+    price: 75,
+    discountPercentage: 15,
+    bonusAmount: 250
+  },
+  {
+    id: "balance-4",
+    name: "Elit Paket",
+    amount: 5000,
+    price: 300,
+    discountPercentage: 25,
+    bonusAmount: 2500
+  },
+];
 
-const CoinsTab = ({ coinBalance, onAddToCart }: CoinsTabProps) => {
+const BalanceTab: React.FC = () => {
   return (
-    <>
-      <div className="text-center mb-6">
-        <h2 className="font-minecraft text-2xl text-minecraft-primary mb-3">Coin Satın Al</h2>
-        <p className="text-white/80 max-w-2xl mx-auto mb-2">
-          Coin satın alarak mağazamızdaki özel eşyaları ve özellikleri açabilirsin.
-        </p>
-        <p className="text-yellow-400 font-medium">Mevcut Bakiye: {coinBalance} Coin</p>
-      </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        {coinPackages.map((pkg) => (
-          <CoinPackageCard key={pkg.id} package={pkg} onAddToCart={onAddToCart} />
+    <TabsContent value="balance" className="space-y-6">
+      <h3 className="text-xl font-semibold">Bakiye Paketleri</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {balancePackages.map((pkg) => (
+          <BalancePackageCard key={pkg.id} balancePackage={pkg} />
         ))}
       </div>
-    </>
+    </TabsContent>
   );
 };
 
-export default CoinsTab;
+export default BalanceTab;

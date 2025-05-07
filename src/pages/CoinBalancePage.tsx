@@ -1,140 +1,115 @@
 
-import { useEffect, useState } from "react";
-import { useCart } from "@/context/cart";
+import { useEffect } from "react";
+import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { Coins, ArrowUpRight, ArrowDownRight, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Coins, Clock, Plus, BarChart } from "lucide-react";
+import { format } from "date-fns";
+import { tr } from "date-fns/locale";
+import { useAuth } from "@/context/auth";
 
-interface CoinTransaction {
-  id: string;
-  amount: number;
-  type: "purchase" | "usage";
-  description: string;
-  date: Date;
-}
-
-const CoinBalancePage = () => {
-  const { coinBalance, addCoins } = useCart();
+const BalancePage = () => {
+  const { balance, transactions } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [transactions, setTransactions] = useState<CoinTransaction[]>([]);
-
-  // Load transaction history from localStorage
+  
+  // Redirect if not authenticated
   useEffect(() => {
-    const storedTransactions = localStorage.getItem("trinova_coin_transactions");
-    if (storedTransactions) {
-      try {
-        const parsedTransactions = JSON.parse(storedTransactions);
-        // Convert date strings back to Date objects
-        const formattedTransactions = parsedTransactions.map((tx: any) => ({
-          ...tx,
-          date: new Date(tx.date)
-        }));
-        setTransactions(formattedTransactions);
-      } catch (error) {
-        console.error("Error parsing coin transactions:", error);
-      }
+    if (!isAuthenticated) {
+      navigate("/");
     }
-  }, []);
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('tr-TR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
-  };
+  }, [isAuthenticated, navigate]);
 
   return (
-    <div className="container mx-auto px-4 py-20 pt-32">
-      <h1 className="section-title">Coin Bakiyem</h1>
+    <div className="container mx-auto py-32 px-4 max-w-4xl">
+      <Button 
+        variant="ghost" 
+        className="mb-6 -ml-2"
+        onClick={() => navigate("/profile")}
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Geri Dön
+      </Button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Coin Balance Card */}
-        <div className="lg:col-span-1">
-          <Card className="glass-card border-yellow-500/30 overflow-hidden">
-            <div className="bg-gradient-to-b from-yellow-600/20 to-amber-500/10 p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg text-yellow-400">Coin Bakiyeniz</h2>
-                <Coins size={24} className="text-yellow-400" />
-              </div>
-              <div className="text-3xl font-bold text-white flex items-center">
-                <span className="mr-2">{coinBalance || 0}</span>
-                <Badge variant="outline" className="text-xs border-yellow-500/30 text-yellow-400">Coin</Badge>
-              </div>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Bakiye İşlemleri</h1>
+        <Button onClick={() => navigate("/shop?tab=balance")}>
+          <Plus className="mr-2 h-4 w-4" />
+          Bakiye Yükle
+        </Button>
+      </div>
+
+      {/* Current Balance */}
+      <div className="bg-minecraft-darker rounded-lg p-6 mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg text-muted-foreground">Mevcut Bakiye</h2>
+            <div className="flex items-center gap-2 mt-1">
+              <Coins className="h-6 w-6 text-yellow-400" />
+              <span className="text-3xl font-bold">{balance} TL</span>
             </div>
-            <CardContent className="pt-4 flex flex-col gap-3">
-              <Button 
-                onClick={() => navigate("/shop?tab=coins")} 
-                className="bg-yellow-600 hover:bg-yellow-700 text-white w-full"
-              >
-                <ShoppingCart size={16} className="mr-2" />
-                Coin Satın Al
-              </Button>
-            </CardContent>
-          </Card>
+          </div>
+          <Button onClick={() => navigate("/shop?tab=balance")}>
+            Yükle
+          </Button>
         </div>
+      </div>
 
-        {/* Transaction History */}
-        <div className="lg:col-span-2">
-          <Card className="glass-card h-full">
-            <CardHeader className="border-b border-white/10">
-              <CardTitle className="font-minecraft text-minecraft-primary">
-                İşlem Geçmişi
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              {transactions.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground mb-2">Henüz hiç coin işlemi bulunmuyor</p>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => navigate("/shop?tab=coins")}
-                    className="mt-2"
-                  >
-                    Coin Satın Al
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {transactions.map((tx) => (
-                    <div key={tx.id} className="flex items-center justify-between pb-3 border-b border-white/10 last:border-0">
-                      <div className="flex items-center">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
-                          tx.type === "purchase" 
-                            ? "bg-green-500/20 text-green-400" 
-                            : "bg-amber-500/20 text-amber-400"
-                        }`}>
-                          {tx.type === "purchase" ? (
-                            <ArrowUpRight size={18} />
-                          ) : (
-                            <ArrowDownRight size={18} />
-                          )}
-                        </div>
-                        <div>
-                          <p className="font-medium">{tx.description}</p>
-                          <p className="text-xs text-muted-foreground">{formatDate(tx.date)}</p>
-                        </div>
-                      </div>
-                      <div className={`font-medium ${
-                        tx.type === "purchase" ? "text-green-400" : "text-amber-400"
-                      }`}>
-                        {tx.type === "purchase" ? "+" : "-"}{tx.amount} Coin
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+      {/* Transaction History */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <BarChart className="h-5 w-5 text-muted-foreground" />
+          <h2 className="text-xl font-semibold">İşlem Geçmişi</h2>
         </div>
+        
+        {transactions.length === 0 ? (
+          <div className="bg-minecraft-darker rounded-lg p-8 text-center">
+            <p className="text-muted-foreground">Henüz bir işlem geçmişiniz bulunmamaktadır.</p>
+          </div>
+        ) : (
+          <div className="bg-minecraft-darker rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left p-4">İşlem</th>
+                    <th className="text-left p-4">Miktar</th>
+                    <th className="text-left p-4">Tarih</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((transaction) => (
+                    <tr key={transaction.id} className="border-b border-white/5 hover:bg-white/5">
+                      <td className="p-4">
+                        <div className="flex items-center gap-2">
+                          {transaction.type === "purchase" ? (
+                            <Plus className="h-4 w-4 text-green-400" />
+                          ) : (
+                            <Coins className="h-4 w-4 text-yellow-400" />
+                          )}
+                          <span>{transaction.description}</span>
+                        </div>
+                      </td>
+                      <td className={`p-4 ${transaction.type === "purchase" ? "text-green-400" : "text-red-400"}`}>
+                        {transaction.type === "purchase" ? "+" : "-"}
+                        {transaction.amount} TL
+                      </td>
+                      <td className="p-4 text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          <span>{format(transaction.date, "dd MMMM yyyy HH:mm", { locale: tr })}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default CoinBalancePage;
+export default BalancePage;

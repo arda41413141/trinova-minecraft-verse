@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,6 +8,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/auth";
 import { toast } from "sonner";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { User, Mail } from "lucide-react";
 
 interface LoginFormProps {
   onSuccess: () => void;
@@ -28,8 +36,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const LoginForm = ({ onSuccess, switchToRegister, onForgotPassword }: LoginFormProps) => {
-  const { login } = useAuth();
+  const { login, savedEmails } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState<string | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -38,6 +47,13 @@ const LoginForm = ({ onSuccess, switchToRegister, onForgotPassword }: LoginFormP
       password: "",
     },
   });
+
+  // Update email field when a saved email is selected
+  useEffect(() => {
+    if (selectedEmail) {
+      form.setValue("email", selectedEmail);
+    }
+  }, [selectedEmail, form]);
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
@@ -52,9 +68,32 @@ const LoginForm = ({ onSuccess, switchToRegister, onForgotPassword }: LoginFormP
     }
   };
 
+  const hasSavedEmails = savedEmails && savedEmails.length > 0;
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {hasSavedEmails && (
+          <div className="mb-4">
+            <label className="text-sm text-muted-foreground mb-1 block">Kayıtlı Hesaplar</label>
+            <Select onValueChange={(value) => setSelectedEmail(value)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Bir hesap seçin" />
+              </SelectTrigger>
+              <SelectContent>
+                {savedEmails.map((email) => (
+                  <SelectItem key={email} value={email} className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <User size={14} />
+                      <span>{email}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+        
         <FormField
           control={form.control}
           name="email"
@@ -62,7 +101,10 @@ const LoginForm = ({ onSuccess, switchToRegister, onForgotPassword }: LoginFormP
             <FormItem>
               <FormLabel>E-posta</FormLabel>
               <FormControl>
-                <Input placeholder="eposta@ornek.com" {...field} />
+                <div className="relative">
+                  <Mail className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input placeholder="eposta@ornek.com" {...field} className="pl-8" />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
