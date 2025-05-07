@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { COIN_STORAGE_KEY } from "../types";
+import { STORAGE_KEY } from "../types";
 
 interface CoinTransaction {
   id: string;
@@ -18,12 +18,12 @@ export const useCoinBalance = () => {
   // Load coins and transactions from localStorage
   useEffect(() => {
     // Load coin balance
-    const storedCoins = localStorage.getItem(COIN_STORAGE_KEY);
+    const storedCoins = localStorage.getItem("trinova_coin_balance");
     if (storedCoins) {
       try {
         setCoinBalance(JSON.parse(storedCoins));
       } catch (error) {
-        localStorage.removeItem(COIN_STORAGE_KEY);
+        localStorage.removeItem("trinova_coin_balance");
       }
     }
 
@@ -46,7 +46,7 @@ export const useCoinBalance = () => {
 
   // Update localStorage when coins or transactions change
   useEffect(() => {
-    localStorage.setItem(COIN_STORAGE_KEY, JSON.stringify(coinBalance));
+    localStorage.setItem("trinova_coin_balance", JSON.stringify(coinBalance));
   }, [coinBalance]);
 
   useEffect(() => {
