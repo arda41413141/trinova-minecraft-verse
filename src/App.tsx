@@ -16,6 +16,7 @@ import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
+import CoinBalancePage from "./pages/CoinBalancePage";
 import { AuthProvider } from "./context/auth";
 import { CartProvider } from "./context/cart";
 import { TicketsProvider } from "./hooks/use-tickets";
@@ -52,6 +53,7 @@ const App = () => (
                       <Route path="/contact" element={<ContactPage />} />
                       <Route path="/cart" element={<CartPage />} />
                       <Route path="/profile" element={<ProfilePage />} />
+                      <Route path="/coins" element={<CoinBalancePage />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

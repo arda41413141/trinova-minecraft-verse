@@ -14,7 +14,7 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const { items, addItem, removeItem, updateQuantity, clearCart } = useCartItems();
-  const { coinBalance, addCoins, useCoins } = useCoinBalance();
+  const { coinBalance, transactions, addCoins, useCoins } = useCoinBalance();
   const { purchasedItems, addPurchasedItem } = usePurchasedItems();
   const { vipStatus, setVipStatus } = useVipStatus();
   const { processCheckout: processCheckoutBase } = useCheckout({
@@ -44,6 +44,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         totalItems,
         totalPrice,
         coinBalance,
+        transactions,
         addCoins,
         useCoins,
         purchasedItems,

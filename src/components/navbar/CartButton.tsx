@@ -17,14 +17,16 @@ const CartButton = () => {
       
       {/* Coin Balance Display */}
       <div className="hidden sm:flex items-center">
-        <MinecraftBadge 
-          variant="default" 
-          size="sm" 
-          className="bg-yellow-500/20 text-yellow-400 border-yellow-400/30 hover:bg-yellow-500/30 transition-colors"
-        >
-          <Coins size={14} className="mr-1" />
-          <span>{coinBalance || 0}</span>
-        </MinecraftBadge>
+        <Link to="/coins">
+          <MinecraftBadge 
+            variant="default" 
+            size="sm" 
+            className="bg-yellow-500/20 text-yellow-400 border-yellow-400/30 hover:bg-yellow-500/30 transition-colors"
+          >
+            <Coins size={14} className="mr-1" />
+            <span>{coinBalance || 0}</span>
+          </MinecraftBadge>
+        </Link>
       </div>
       
       {/* Shopping Cart */}

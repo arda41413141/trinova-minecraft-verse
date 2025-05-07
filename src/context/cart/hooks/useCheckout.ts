@@ -4,8 +4,8 @@ import { toast } from "sonner";
 import { CartItem, Product } from "../types";
 
 interface CheckoutDependencies {
-  addCoins: (amount: number) => void;
-  useCoins: (amount: number) => boolean;
+  addCoins: (amount: number, description?: string) => void;
+  useCoins: (amount: number, description?: string) => boolean;
   addPurchasedItem: (product: Product) => void;
   setVipStatus: (status: string) => void;
   clearCart: () => void;
@@ -36,15 +36,13 @@ export const useCheckout = ({
           // Use coinAmount from the product directly if available
           if (product.coinAmount) {
             const coinAmount = product.coinAmount * quantity;
-            addCoins(coinAmount);
-            toast.success(`${coinAmount} Coin hesabınıza eklendi!`);
+            addCoins(coinAmount, `${product.name} satın alındı`);
           } else {
             // Extract coin amount from the product name (like "1000 Coin" -> 1000)
             const coinAmountMatch = product.name.match(/(\d+)/);
             if (coinAmountMatch && coinAmountMatch[1]) {
               const coinAmount = parseInt(coinAmountMatch[1]) * quantity;
-              addCoins(coinAmount);
-              toast.success(`${coinAmount} Coin hesabınıza eklendi!`);
+              addCoins(coinAmount, `${product.name} satın alındı`);
             }
           }
         }
@@ -52,7 +50,7 @@ export const useCheckout = ({
         else if (product.priceType === "coin") {
           // Check if user has enough coins
           const totalCost = product.price * quantity;
-          if (!useCoins(totalCost)) {
+          if (!useCoins(totalCost, `${product.name} satın alındı`)) {
             return false; // Not enough coins
           }
           

@@ -25,6 +25,14 @@ export interface PurchasedItem {
   expiryDate?: string;
 }
 
+export interface CoinTransaction {
+  id: string;
+  amount: number;
+  type: "purchase" | "usage";
+  description: string;
+  date: Date;
+}
+
 export interface CartContextType {
   items: CartItem[];
   addItem: (product: Product, quantity?: number) => void;
@@ -34,8 +42,9 @@ export interface CartContextType {
   totalItems: number;
   totalPrice: number;
   coinBalance: number;
-  addCoins: (amount: number) => void;
-  useCoins: (amount: number) => boolean;
+  transactions: CoinTransaction[];
+  addCoins: (amount: number, description?: string) => void;
+  useCoins: (amount: number, description?: string) => boolean;
   purchasedItems: PurchasedItem[];
   vipStatus: string | null;
   processCheckout: () => Promise<boolean>;
