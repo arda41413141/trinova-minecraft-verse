@@ -30,6 +30,12 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
     ? product.price - (product.price * product.discountPercentage / 100)
     : product.price;
 
+  // Format prices according to the requested format (e.g., 150.99TL)
+  const formattedPrice = `${actualPrice.toFixed(2)}TL`;
+  const formattedOriginalPrice = product.isSpecialOffer && product.originalPrice
+    ? `${product.originalPrice.toFixed(2)}TL`
+    : null;
+
   const handleAddToCart = () => {
     setIsAdding(true);
     setTimeout(() => {
@@ -47,12 +53,14 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   return (
     <Card className={cn(
       "group overflow-hidden transition-all duration-300 hover:shadow-lg border-minecraft-primary/10",
-      product.isSpecialOffer ? "bg-gradient-to-br from-minecraft-darker to-minecraft-dark" : ""
+      product.isSpecialOffer 
+        ? "bg-gradient-to-br from-purple-900/20 to-black/90 hover:shadow-purple-500/20" 
+        : "bg-zinc-900/50 hover:bg-zinc-900/70"
     )}>
       <div className="relative overflow-hidden pt-4 px-4">
         {product.isSpecialOffer && (
           <div className="absolute top-0 right-0">
-            <Badge variant="destructive" className="rounded-bl-md rounded-tr-md">
+            <Badge variant="destructive" className="rounded-bl-md rounded-tr-md bg-gradient-to-r from-purple-600 to-purple-800 border-none">
               %{product.discountPercentage} İndirim
             </Badge>
           </div>
@@ -100,23 +108,28 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
             {product.priceType === "balance" ? (
               <div className="flex items-center">
                 <Coins size={16} className="text-yellow-400 mr-1" />
-                <span className="font-semibold">{actualPrice}</span>
+                <span className="font-semibold">{formattedPrice}</span>
               </div>
             ) : (
               <div>
-                {product.isSpecialOffer && (
+                {formattedOriginalPrice && (
                   <span className="text-sm line-through text-muted-foreground mr-2">
-                    {product.price.toFixed(2)} ₺
+                    {formattedOriginalPrice}
                   </span>
                 )}
-                <span className="font-semibold">{actualPrice.toFixed(2)} ₺</span>
+                <span className="font-semibold">{formattedPrice}</span>
               </div>
             )}
           </div>
 
           <Button 
-            size="sm" 
-            className="h-8"
+            size="sm"
+            className={cn(
+              "h-8",
+              product.category === "rank" 
+                ? "bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900"
+                : ""
+            )}
             disabled={isAdding}
             onClick={handleAddToCart}
           >

@@ -110,11 +110,11 @@
   }
   
   .special-offer-card::before {
-    content: "Açılışa Özel";
+    content: "Özel Teklif";
     position: absolute;
     top: 10px;
     left: -40px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
     color: white;
     font-size: 0.75rem;
     font-weight: 700;
@@ -144,10 +144,10 @@
     padding: 2px;
     background: linear-gradient(
       45deg, 
-      rgba(245, 158, 11, 0.5),  /* Amber */
-      rgba(139, 92, 246, 0.5),  /* Purple */
-      rgba(219, 39, 119, 0.5),  /* Pink */
-      rgba(16, 185, 129, 0.5)   /* Emerald */
+      rgba(126, 34, 206, 0.7),  /* Purple */
+      rgba(147, 51, 234, 0.7),  /* Violet */
+      rgba(168, 85, 247, 0.7),  /* Purple */
+      rgba(192, 132, 252, 0.7)  /* Light Purple */
     );
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -159,7 +159,37 @@
   }
   
   .vip-badge {
-    @apply absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-amber-600 text-white text-xs font-bold px-2 py-1 rounded-bl-md;
-    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.5);
+    @apply absolute top-0 right-0 bg-gradient-to-r from-purple-500 to-purple-700 text-white text-xs font-bold px-2 py-1 rounded-bl-md;
+    box-shadow: 0 2px 10px rgba(147, 51, 234, 0.5);
+  }
+  
+  /* Premium Button */
+  .premium-button {
+    @apply relative overflow-hidden bg-gradient-to-r from-purple-600 via-purple-500 to-purple-700 
+           hover:from-purple-700 hover:to-purple-800 text-white font-semibold
+           border border-purple-400/30 shadow-lg shadow-purple-500/20;
+  }
+  
+  .premium-button::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: rotate(45deg);
+    animation: premium-shine 3s infinite;
+  }
+  
+  .premium-card {
+    @apply relative overflow-hidden bg-gradient-to-br from-purple-800/20 to-black 
+           border border-purple-500/30 rounded-lg shadow-lg shadow-purple-500/10
+           transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20;
   }
 }
