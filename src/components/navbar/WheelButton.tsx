@@ -5,10 +5,11 @@ import WheelDialog from "../wheel/WheelDialog";
 import { useCart } from "@/context/cart";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SPIN_COST } from "../wheel/types";
 
 const WheelButton = () => {
   const { balance } = useCart();
-  const canSpin = (balance || 0) >= 50;
+  const canSpin = (balance || 0) >= SPIN_COST;
   
   return (
     <TooltipProvider>
@@ -39,7 +40,7 @@ const WheelButton = () => {
           </div>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{canSpin ? "Premium çarkı çevirmek için tıkla!" : "Çarkı çevirmek için 50 TL bakiye gerekiyor"}</p>
+          <p>{canSpin ? "Premium çarkı çevirmek için tıkla!" : `Çarkı çevirmek için ${SPIN_COST} TL bakiye gerekiyor`}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
