@@ -3,21 +3,21 @@ import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart } from "@/context/cart";
 import { toast } from "sonner";
-import { ShoppingBag, Coins } from "lucide-react";
+import { ShoppingBag, Wallet } from "lucide-react";
 import ProductsTab from "@/components/shop/ProductsTab";
-import CoinsTab from "@/components/shop/CoinsTab";
+import BalanceTab from "@/components/shop/BalanceTab";
 import { useSearchParams } from "react-router-dom";
 
 const ShopPage = () => {
-  const { addItem, coinBalance } = useCart();
+  const { addItem, balance } = useCart();
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>("products");
   
   // Set initial tab based on URL parameter
   useEffect(() => {
     const tab = searchParams.get("tab");
-    if (tab === "coins") {
-      setActiveTab("coins");
+    if (tab === "balance") {
+      setActiveTab("balance");
     }
   }, [searchParams]);
   
@@ -35,8 +35,8 @@ const ShopPage = () => {
           <TabsTrigger value="products" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white w-1/2">
             <ShoppingBag size={16} className="mr-2" /> Ürünler
           </TabsTrigger>
-          <TabsTrigger value="coins" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white w-1/2">
-            <Coins size={16} className="mr-2" /> Coin Satın Al
+          <TabsTrigger value="balance" className="data-[state=active]:bg-minecraft-primary data-[state=active]:text-white w-1/2">
+            <Wallet size={16} className="mr-2" /> Bakiye Yükle
           </TabsTrigger>
         </TabsList>
         
@@ -44,8 +44,8 @@ const ShopPage = () => {
           <ProductsTab onAddToCart={handleAddToCart} />
         </TabsContent>
         
-        <TabsContent value="coins" className="mt-6">
-          <CoinsTab coinBalance={coinBalance} onAddToCart={handleAddToCart} />
+        <TabsContent value="balance" className="mt-6">
+          <BalanceTab balance={balance} onAddToCart={handleAddToCart} />
         </TabsContent>
       </Tabs>
     </div>

@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const WheelButton = () => {
-  const { coinBalance } = useCart();
-  const canSpin = (coinBalance || 0) >= 50;
+  const { balance } = useCart();
+  const canSpin = (balance || 0) >= 50;
   
   return (
     <TooltipProvider>
@@ -33,7 +33,7 @@ const WheelButton = () => {
           </div>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{canSpin ? "Çarkı çevirmek için tıkla!" : "Çarkı çevirmek için 50 coin gerekiyor"}</p>
+          <p>{canSpin ? "Çarkı çevirmek için tıkla!" : "Çarkı çevirmek için 50 TL bakiye gerekiyor"}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

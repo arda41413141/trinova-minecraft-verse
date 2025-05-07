@@ -6,11 +6,11 @@ export interface Product {
   image: string;
   description?: string;
   category?: string;
-  priceType?: "coin" | "money"; 
+  priceType?: "balance" | "money"; 
   originalPrice?: number;       // For discount display
   isSpecialOffer?: boolean;     // For special offer items
   discountPercentage?: number;  // For discount percentage
-  coinAmount?: number;          // For coin packages
+  balanceAmount?: number;       // For balance packages
 }
 
 export interface CartItem {
@@ -25,7 +25,7 @@ export interface PurchasedItem {
   expiryDate?: string;
 }
 
-export interface CoinTransaction {
+export interface BalanceTransaction {
   id: string;
   amount: number;
   type: "purchase" | "usage";
@@ -41,16 +41,16 @@ export interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
-  coinBalance: number;
-  transactions: CoinTransaction[];
-  addCoins: (amount: number, description?: string) => void;
-  useCoins: (amount: number, description?: string) => boolean;
+  balance: number;
+  transactions: BalanceTransaction[];
+  addBalance: (amount: number, description?: string) => void;
+  useBalance: (amount: number, description?: string) => boolean;
   purchasedItems: PurchasedItem[];
   vipStatus: string | null;
   processCheckout: () => Promise<boolean>;
 }
 
 export const STORAGE_KEY = "trinova_cart";
-export const COIN_STORAGE_KEY = "trinova_coins";
+export const BALANCE_STORAGE_KEY = "trinova_balance";
 export const PURCHASED_ITEMS_KEY = "trinova_purchased_items";
 export const VIP_STATUS_KEY = "trinova_vip_status";

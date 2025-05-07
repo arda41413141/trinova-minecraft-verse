@@ -1,12 +1,13 @@
 
-export interface CoinPackage {
+export interface BalancePackage {
   id: string;
   name: string;
   price: number;
   originalPrice?: number;
-  coinAmount: number;
+  balanceAmount: number;
   image: string;
   description: string;
   isSpecialOffer?: boolean;
   discountPercentage?: number;
+  category?: string;
 }

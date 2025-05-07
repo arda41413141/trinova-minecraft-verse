@@ -4,16 +4,16 @@ import { toast } from "sonner";
 import { CartItem, Product } from "../types";
 
 interface CheckoutDependencies {
-  addCoins: (amount: number, description?: string) => void;
-  useCoins: (amount: number, description?: string) => boolean;
+  addBalance: (amount: number, description?: string) => void;
+  useBalance: (amount: number, description?: string) => boolean;
   addPurchasedItem: (product: Product) => void;
   setVipStatus: (status: string) => void;
   clearCart: () => void;
 }
 
 export const useCheckout = ({
-  addCoins,
-  useCoins,
+  addBalance,
+  useBalance,
   addPurchasedItem,
   setVipStatus,
   clearCart
@@ -31,27 +31,27 @@ export const useCheckout = ({
       for (const item of items) {
         const { product, quantity } = item;
 
-        // Add coins if it's a coin package
+        // Add balance if it's a balance package
         if (product.category === "credit") {
-          // Use coinAmount from the product directly if available
-          if (product.coinAmount) {
-            const coinAmount = product.coinAmount * quantity;
-            addCoins(coinAmount, `${product.name} satın alındı`);
+          // Use balanceAmount from the product directly if available
+          if (product.balanceAmount) {
+            const balanceAmount = product.balanceAmount * quantity;
+            addBalance(balanceAmount, `${product.name} satın alındı`);
           } else {
-            // Extract coin amount from the product name (like "1000 Coin" -> 1000)
-            const coinAmountMatch = product.name.match(/(\d+)/);
-            if (coinAmountMatch && coinAmountMatch[1]) {
-              const coinAmount = parseInt(coinAmountMatch[1]) * quantity;
-              addCoins(coinAmount, `${product.name} satın alındı`);
+            // Extract balance amount from the product name (like "100 TL" -> 100)
+            const balanceAmountMatch = product.name.match(/(\d+)/);
+            if (balanceAmountMatch && balanceAmountMatch[1]) {
+              const balanceAmount = parseInt(balanceAmountMatch[1]) * quantity;
+              addBalance(balanceAmount, `${product.name} satın alındı`);
             }
           }
         }
-        // Process coin purchases (items bought with coins)
-        else if (product.priceType === "coin") {
-          // Check if user has enough coins
+        // Process balance purchases (items bought with balance)
+        else if (product.priceType === "balance") {
+          // Check if user has enough balance
           const totalCost = product.price * quantity;
-          if (!useCoins(totalCost, `${product.name} satın alındı`)) {
-            return false; // Not enough coins
+          if (!useBalance(totalCost, `${product.name} satın alındı`)) {
+            return false; // Not enough balance
           }
           
           // Add to purchased items

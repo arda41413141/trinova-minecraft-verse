@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Coins, Gift, Percent, Star } from "lucide-react";
+import { Gift, Percent, Star, Wallet } from "lucide-react";
 import { MinecraftBadge } from "@/components/ui/minecraft-badge";
 import { useCart } from "@/context/cart";
 import { toast } from "sonner";
@@ -44,12 +44,12 @@ const wheelSegments: WheelSegment[] = [
     description: "Tüm alışverişlerinizde 15% indirim"
   },
   {
-    id: "coins100",
-    name: "100 Coin",
-    color: "bg-yellow-500",
-    icon: <Coins size={24} className="text-white" />,
+    id: "balance100",
+    name: "100 TL",
+    color: "bg-green-500",
+    icon: <Wallet size={24} className="text-white" />,
     chance: 25,
-    description: "100 Coin kazandınız!"
+    description: "100 TL bakiye kazandınız!"
   },
   {
     id: "vipBasic",
@@ -61,7 +61,7 @@ const wheelSegments: WheelSegment[] = [
   },
 ];
 
-const SPIN_COST = 50; // Cost in coins to spin the wheel
+const SPIN_COST = 50; // Cost in TL to spin the wheel
 
 interface SpinningWheelProps {
   onClose?: () => void;
@@ -71,13 +71,13 @@ const SpinningWheel = ({ onClose }: SpinningWheelProps) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [winner, setWinner] = useState<WheelSegment | null>(null);
-  const { coinBalance, useCoins, addCoins, addItem } = useCart();
+  const { balance, useBalance, addBalance, addItem } = useCart();
   const wheelRef = useRef<HTMLDivElement>(null);
   const segmentAngle = 360 / wheelSegments.length;
   const [showSparkles, setShowSparkles] = useState(false);
 
   // Check if user can afford to spin
-  const canSpin = coinBalance >= SPIN_COST && !isSpinning;
+  const canSpin = balance >= SPIN_COST && !isSpinning;
 
   // Calculate total chance weight
   const totalChance = wheelSegments.reduce((sum, segment) => sum + segment.chance, 0);
@@ -120,9 +120,9 @@ const SpinningWheel = ({ onClose }: SpinningWheelProps) => {
   const spinWheel = () => {
     if (!canSpin) return;
     
-    // Use coins
-    if (!useCoins(SPIN_COST)) {
-      toast.error("Yeterli coin yok!");
+    // Use balance
+    if (!useBalance(SPIN_COST)) {
+      toast.error("Yeterli bakiye yok!");
       return;
     }
 
@@ -202,9 +202,9 @@ const SpinningWheel = ({ onClose }: SpinningWheelProps) => {
         }));
         toast.success(`${segment.name} kazandınız! Bir sonraki alışverişinizde geçerli.`);
         break;
-      case "coins100":
-        addCoins(100);
-        toast.success("100 Coin kazandınız!");
+      case "balance100":
+        addBalance(100);
+        toast.success("100 TL bakiye kazandınız!");
         break;
       case "vipBasic":
         // Get first VIP product from products
@@ -231,16 +231,16 @@ const SpinningWheel = ({ onClose }: SpinningWheelProps) => {
       
       <div className="mb-6 text-center relative z-10">
         <h2 className="text-3xl font-minecraft text-minecraft-primary mb-2 glow-effect">Şans Çarkı</h2>
-        <p className="text-muted-foreground mb-4">Çarkı çevirmek için {SPIN_COST} coin harcayın!</p>
+        <p className="text-muted-foreground mb-4">Çarkı çevirmek için {SPIN_COST} TL bakiye harcayın!</p>
         
         <div className="flex justify-center mb-4">
           <MinecraftBadge 
             variant="default" 
             size="default" 
-            className="bg-yellow-500/20 text-yellow-400 border-yellow-400/30 animate-pulse-gentle"
+            className="bg-green-500/20 text-green-400 border-green-400/30 animate-pulse-gentle"
           >
-            <Coins size={16} className="mr-2" />
-            <span>{coinBalance || 0} Coin</span>
+            <Wallet size={16} className="mr-2" />
+            <span>{balance || 0} TL</span>
           </MinecraftBadge>
         </div>
       </div>

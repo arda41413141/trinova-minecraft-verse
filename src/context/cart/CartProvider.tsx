@@ -3,7 +3,7 @@ import React from "react";
 import CartContext from "./CartContext";
 import { calculateTotalItems, calculateTotalPrice } from "./cartUtils";
 import { useCartItems } from "./hooks/useCartItems";
-import { useCoinBalance } from "./hooks/useCoinBalance";
+import { useBalance } from "./hooks/useBalance";
 import { usePurchasedItems } from "./hooks/usePurchasedItems";
 import { useVipStatus } from "./hooks/useVipStatus";
 import { useCheckout } from "./hooks/useCheckout";
@@ -14,12 +14,12 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const { items, addItem, removeItem, updateQuantity, clearCart } = useCartItems();
-  const { coinBalance, transactions, addCoins, useCoins } = useCoinBalance();
+  const { balance, transactions, addBalance, useBalance } = useBalance();
   const { purchasedItems, addPurchasedItem } = usePurchasedItems();
   const { vipStatus, setVipStatus } = useVipStatus();
   const { processCheckout: processCheckoutBase } = useCheckout({
-    addCoins,
-    useCoins,
+    addBalance,
+    useBalance,
     addPurchasedItem,
     setVipStatus,
     clearCart
@@ -43,10 +43,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         clearCart,
         totalItems,
         totalPrice,
-        coinBalance,
+        balance,
         transactions,
-        addCoins,
-        useCoins,
+        addBalance,
+        useBalance,
         purchasedItems,
         vipStatus,
         processCheckout,
