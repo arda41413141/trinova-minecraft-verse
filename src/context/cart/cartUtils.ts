@@ -7,7 +7,7 @@ export const calculateTotalItems = (items: { quantity: number }[]) => {
 
 export const calculateTotalPrice = (items: { product: Product; quantity: number }[]) => {
   return items
-    .filter(item => item.product.priceType !== "coin")
+    .filter(item => item.product.priceType !== "balance")
     .reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 };
 

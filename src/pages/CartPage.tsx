@@ -38,9 +38,9 @@ const CartPage = () => {
     setIsProcessing(false);
   };
 
-  // Separate items by price type (money vs coins)
-  const moneyItems = items.filter(item => item.product.priceType !== "coin");
-  const coinItems = items.filter(item => item.product.priceType === "coin");
+  // Separate items by price type (money vs balance)
+  const moneyItems = items.filter(item => item.product.priceType !== "balance");
+  const balanceItems = items.filter(item => item.product.priceType === "balance");
 
   // Calculate total price for money items
   const totalMoneyPrice = moneyItems.reduce(
@@ -48,8 +48,8 @@ const CartPage = () => {
     0
   );
 
-  // Calculate total coins needed
-  const totalCoins = coinItems.reduce(
+  // Calculate total balance needed
+  const totalBalance = balanceItems.reduce(
     (sum, item) => sum + item.product.price * item.quantity, 
     0
   );
@@ -73,12 +73,12 @@ const CartPage = () => {
               removeItem={removeItem}
             />
             
-            {/* Coin Items Section */}
+            {/* Balance Items Section */}
             <CartItemSection
-              title="Coin ile Satın Alınacak Ürünler"
+              title="Bakiye ile Satın Alınacak Ürünler"
               bgClass="bg-yellow-600/20"
               borderClass="border-b border-yellow-500/30"
-              items={coinItems}
+              items={balanceItems}
               handleQuantityChange={handleQuantityChange}
               removeItem={removeItem}
             />
@@ -99,12 +99,12 @@ const CartPage = () => {
           <div className="lg:col-span-1">
             <OrderSummary 
               totalMoneyPrice={totalMoneyPrice}
-              totalCoins={totalCoins}
+              totalCoins={totalBalance}
               isProcessing={isProcessing}
               isAuthenticated={isAuthenticated}
               handleCheckout={handleCheckout}
               moneyItemsExist={moneyItems.length > 0}
-              coinItemsExist={coinItems.length > 0}
+              coinItemsExist={balanceItems.length > 0}
             />
           </div>
         </div>

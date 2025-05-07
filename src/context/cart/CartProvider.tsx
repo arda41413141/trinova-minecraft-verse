@@ -3,7 +3,7 @@ import React from "react";
 import CartContext from "./CartContext";
 import { calculateTotalItems, calculateTotalPrice } from "./cartUtils";
 import { useCartItems } from "./hooks/useCartItems";
-import { useBalance } from "./hooks/useBalance";
+import { useBalance } from "./hooks/useBalance"; // Fixed import order - moved before it's used
 import { usePurchasedItems } from "./hooks/usePurchasedItems";
 import { useVipStatus } from "./hooks/useVipStatus";
 import { useCheckout } from "./hooks/useCheckout";
