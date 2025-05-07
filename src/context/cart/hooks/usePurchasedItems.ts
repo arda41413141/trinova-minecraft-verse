@@ -1,19 +1,26 @@
 
 import { useState, useEffect } from "react";
-import { Product, PurchasedItem, PURCHASED_ITEMS_KEY } from "../types";
-import { createPurchasedItem } from "../cartUtils";
+import { PURCHASED_ITEMS_KEY, PurchasedItem } from "../types";
 
 export const usePurchasedItems = () => {
   const [purchasedItems, setPurchasedItems] = useState<PurchasedItem[]>([]);
 
   // Load purchased items from localStorage
   useEffect(() => {
-    const storedPurchasedItems = localStorage.getItem(PURCHASED_ITEMS_KEY);
+    const storedItems = localStorage.getItem(PURCHASED_ITEMS_KEY);
     
-    if (storedPurchasedItems) {
+    if (storedItems) {
       try {
-        setPurchasedItems(JSON.parse(storedPurchasedItems));
+        const parsedItems = JSON.parse(storedItems);
+        // Convert date strings back to Date objects
+        const itemsWithDates = parsedItems.map((item: any) => ({
+          ...item,
+          purchaseDate: item.purchaseDate ? new Date(item.purchaseDate) : new Date(),
+          expiryDate: item.expiryDate ? new Date(item.expiryDate) : undefined
+        }));
+        setPurchasedItems(itemsWithDates);
       } catch (error) {
+        console.error("Failed to parse purchased items:", error);
         localStorage.removeItem(PURCHASED_ITEMS_KEY);
       }
     }
@@ -24,9 +31,8 @@ export const usePurchasedItems = () => {
     localStorage.setItem(PURCHASED_ITEMS_KEY, JSON.stringify(purchasedItems));
   }, [purchasedItems]);
 
-  const addPurchasedItem = (product: Product) => {
-    const newItem = createPurchasedItem(product);
-    setPurchasedItems(prev => [...prev, newItem]);
+  const addPurchasedItem = (product: PurchasedItem) => {
+    setPurchasedItems(prev => [...prev, product]);
   };
 
   return {

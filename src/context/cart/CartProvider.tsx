@@ -1,12 +1,14 @@
 
 import React from "react";
+
 import CartContext from "./CartContext";
 import { calculateTotalItems, calculateTotalPrice } from "./cartUtils";
 import { useCartItems } from "./hooks/useCartItems";
-import { useBalanceHook } from "./hooks/useBalance"; // Renamed import to avoid naming conflict
+import { useBalanceHook } from "./hooks/useBalance"; 
 import { usePurchasedItems } from "./hooks/usePurchasedItems";
 import { useVipStatus } from "./hooks/useVipStatus";
 import { useCheckout } from "./hooks/useCheckout";
+import { Product, PurchasedItem } from "./types";
 
 interface CartProviderProps {
   children: React.ReactNode;
@@ -14,7 +16,7 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const { items, addItem, removeItem, updateQuantity, clearCart } = useCartItems();
-  const { balance, transactions, addBalance, useBalance } = useBalanceHook(); // Use renamed import
+  const { balance, transactions, addBalance, useBalance } = useBalanceHook(); 
   const { purchasedItems, addPurchasedItem } = usePurchasedItems();
   const { vipStatus, setVipStatus } = useVipStatus();
   const { processCheckout: processCheckoutBase } = useCheckout({
@@ -27,10 +29,21 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const totalItems = calculateTotalItems(items);
   const totalPrice = calculateTotalPrice(items);
-  
-  // Wrapper for processCheckout that passes the current items
+
+  // Wrapper for processCheckout to automatically pass the items
   const processCheckout = async () => {
-    return processCheckoutBase(items);
+    return await processCheckoutBase(items);
+  };
+
+  // Create a function to add products to purchased items
+  const addProductToPurchasedItems = (product: Product) => {
+    const purchasedItem: PurchasedItem = {
+      ...product,
+      purchaseDate: new Date(),
+      // Set expiry date for VIP packages
+      expiryDate: product.category === "rank" ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) : undefined
+    };
+    addPurchasedItem(purchasedItem);
   };
 
   return (
@@ -49,7 +62,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         useBalance,
         purchasedItems,
         vipStatus,
-        processCheckout,
+        processCheckout
       }}
     >
       {children}

@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { Product } from "@/context/cart/types";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ProductCard from "./ProductCard";
+import { ProductCard } from "./ProductCard";
 import { Crown, ShoppingBag, Diamond } from "lucide-react";
 
 const categories = [

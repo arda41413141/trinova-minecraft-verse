@@ -6,14 +6,23 @@ export interface Product {
   image?: string;
   description?: string;
   category: string;
-  priceType: "money" | "balance"; // Changed from "coin" to "balance"
+  priceType: "money" | "balance";
   isSpecialOffer?: boolean;
   discountPercentage?: number;
+  originalPrice?: number; // Added for display purposes
+  balanceAmount?: number; // For balance packages
+  purchaseDate?: Date; // For purchased items
+  expiryDate?: Date; // For items with expiration like VIP
 }
 
 export interface CartItem {
   product: Product;
   quantity: number;
+}
+
+export interface PurchasedItem extends Product {
+  purchaseDate: Date;
+  expiryDate?: Date;
 }
 
 export interface CartContextType {
@@ -28,7 +37,7 @@ export interface CartContextType {
   transactions: any[];
   addBalance: (amount: number, description?: string) => void;
   useBalance: (amount: number, description?: string) => boolean;
-  purchasedItems: Product[];
+  purchasedItems: PurchasedItem[];
   vipStatus: boolean;
   processCheckout: () => Promise<{ success: boolean; message: string }>;
 }
