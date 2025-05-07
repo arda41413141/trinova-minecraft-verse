@@ -53,7 +53,7 @@ const CartItemRow = ({ item, handleQuantityChange, removeItem }: CartItemRowProp
         </div>
         
         <span className="font-medium w-20 text-right flex items-center justify-end">
-          {item.product.priceType === "coin" ? (
+          {item.product.priceType === "balance" ? (
             <>
               <Coins size={14} className="text-yellow-400 mr-1" />
               {item.product.price * item.quantity}

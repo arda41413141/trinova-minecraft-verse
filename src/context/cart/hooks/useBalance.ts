@@ -11,7 +11,7 @@ interface BalanceTransaction {
   date: Date;
 }
 
-export const useBalance = () => {
+export const useBalanceHook = () => {
   const [balance, setBalance] = useState<number>(0);
   const [transactions, setTransactions] = useState<BalanceTransaction[]>([]);
 

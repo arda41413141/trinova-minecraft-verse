@@ -1,4 +1,3 @@
-
 import { Product } from "../context/cart/types";
 
 export const products: Product[] = [
@@ -10,7 +9,7 @@ export const products: Product[] = [
     image: "/images/products/vip-rank.png",
     description: "30 gün boyunca VIP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
-    priceType: "money",
+    priceType: "balance",
     isSpecialOffer: true,
     discountPercentage: 25
   },
@@ -22,7 +21,7 @@ export const products: Product[] = [
     image: "/images/products/premium-vip.png",
     description: "45 gün süresince Premium VIP özellikleri, özel kostümler ve her hafta ekstra kaynak kazanın.",
     category: "rank",
-    priceType: "money",
+    priceType: "balance",
     isSpecialOffer: true,
     discountPercentage: 25
   },
@@ -33,7 +32,7 @@ export const products: Product[] = [
     image: "/images/products/elite-vip.png",
     description: "60 gün Elite VIP ayrıcalıkları, özel komutlar, sınırsız kaynak ve haftalık özel ödüller.",
     category: "rank",
-    priceType: "money"
+    priceType: "balance"
   },
   {
     id: "2",
@@ -42,7 +41,7 @@ export const products: Product[] = [
     image: "/images/products/mvp-rank.png",
     description: "30 gün boyunca MVP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
-    priceType: "money"
+    priceType: "balance"
   },
   {
     id: "3",
@@ -51,7 +50,7 @@ export const products: Product[] = [
     image: "/images/products/diamond-sword.png",
     description: "Özel büyülere sahip elmas kılıç.",
     category: "item",
-    priceType: "coin"
+    priceType: "balance"
   },
   {
     id: "4",
@@ -61,7 +60,7 @@ export const products: Product[] = [
     image: "/images/products/diamond-armor.png",
     description: "Özel tasarım zırh seti.",
     category: "item",
-    priceType: "coin",
+    priceType: "balance",
     isSpecialOffer: true,
     discountPercentage: 10
   }
