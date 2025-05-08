@@ -2,6 +2,7 @@
 import ServerConnectionCard from "@/components/server/ServerConnectionCard";
 import GameModeTabs from "@/components/server/GameModeTabs";
 import ServerRules from "@/components/server/ServerRules";
+import ServerFAQ from "@/components/server/ServerFAQ";
 import { useSearchParams } from "react-router-dom";
 
 const ServerPage = () => {
@@ -28,6 +29,9 @@ const ServerPage = () => {
         
         {/* Server Rules */}
         <ServerRules />
+        
+        {/* FAQ Section */}
+        <ServerFAQ />
       </div>
     </div>
   );
