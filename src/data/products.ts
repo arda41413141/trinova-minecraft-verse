@@ -1,3 +1,4 @@
+
 import { Product } from "../context/cart/types";
 
 // Function to format price as whole number with 150% increase
@@ -14,7 +15,7 @@ export const products: Product[] = [
     name: "VIP Paketi",
     price: formatPrice(29.99 * 1.8), // 150% increase then round
     originalPrice: formatPrice(39.99 * 1.8), 
-    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=600&fit=crop&q=80",
     description: "30 gün boyunca VIP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
     priceType: "balance",
@@ -26,7 +27,7 @@ export const products: Product[] = [
     name: "Premium VIP Paketi",
     price: formatPrice(59.99 * 1.8),
     originalPrice: formatPrice(79.99 * 1.8),
-    image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=600&h=600&fit=crop&q=80",
     description: "45 gün süresince Premium VIP özellikleri, özel kostümler ve her hafta ekstra kaynak kazanın.",
     category: "rank",
     priceType: "balance",
@@ -37,7 +38,7 @@ export const products: Product[] = [
     id: "vip_elite",
     name: "Elite VIP Paketi",
     price: formatPrice(99.99 * 1.8),
-    image: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=600&fit=crop&q=80",
     description: "60 gün Elite VIP ayrıcalıkları, özel komutlar, sınırsız kaynak ve haftalık özel ödüller.",
     category: "rank",
     priceType: "balance"
@@ -46,7 +47,7 @@ export const products: Product[] = [
     id: "2",
     name: "MVP Paketi",
     price: formatPrice(49.99 * 1.8),
-    image: "https://images.unsplash.com/photo-1501286353178-1ec881214838?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600&h=600&fit=crop&q=80",
     description: "30 gün boyunca MVP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
     priceType: "balance"

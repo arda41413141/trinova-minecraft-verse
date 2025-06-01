@@ -6,21 +6,21 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 const slides = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1619197556483-7da6e0bb5t34",
-    title: "TrinovaStudios Minecraft Dünyasına Hoşgeldin",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&h=1080&fit=crop&q=80",
+    title: "Farex Network Minecraft Dünyasına Hoşgeldin",
     description: "Heyecan verici maceralar, rekabetçi oyun modları ve arkadaşlıklar için doğru adres!",
     cta: "Hemen Başla"
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1607513746994-51f730a44832",
+    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1920&h=1080&fit=crop&q=80",
     title: "Survival Dünyası",
     description: "Zorlu hayatta kalma mücadelesine katıl, kendi imparatorluğunu kur ve en iyi ol!",
     cta: "Keşfet"
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1542376333-5b2c5df9c54a",
+    image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=1920&h=1080&fit=crop&q=80",
     title: "Skyblock Maceraları",
     description: "Küçük bir adada başla, imkansızı başar! Skyblock modunda becerilerini test et.",
     cta: "Oynamaya Başla"
