@@ -45,41 +45,51 @@ const HeroSlider = () => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      {/* Background overlay with dragon silhouette */}
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-           style={{ backgroundImage: `url('/lovable-uploads/0585c4c9-e636-41c7-b94e-61b141055264.png')` }}>
+      {/* Hypixel-style background with new Farex Network logo */}
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+           style={{ backgroundImage: `url('/lovable-uploads/b3f46091-45de-462d-8513-5a1cef05e6d0.png')` }}>
       </div>
       
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-minecraft z-10"></div>
+      {/* Hypixel-style gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-hypixel-dark-primary/80 via-hypixel-dark-secondary/60 to-hypixel-dark-primary/90 z-10"></div>
+      
+      {/* Hypixel particles effect */}
+      <div className="absolute inset-0 z-10 opacity-30">
+        <div className="animate-hypixel-float absolute top-20 left-10 w-4 h-4 bg-hypixel-orange rounded-full blur-sm"></div>
+        <div className="animate-hypixel-float absolute top-40 right-20 w-3 h-3 bg-hypixel-aqua rounded-full blur-sm" style={{ animationDelay: '1s' }}></div>
+        <div className="animate-hypixel-float absolute bottom-32 left-1/4 w-2 h-2 bg-hypixel-gold rounded-full blur-sm" style={{ animationDelay: '2s' }}></div>
+        <div className="animate-hypixel-float absolute top-1/3 right-1/3 w-5 h-5 bg-hypixel-orange/50 rounded-full blur-md" style={{ animationDelay: '0.5s' }}></div>
+      </div>
       
       {/* Slider Content */}
       <div className="relative z-20 h-full flex items-center">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="font-minecraft text-4xl md:text-5xl lg:text-6xl text-white mb-6 animate-float">
+            <h1 className="font-hypixel text-4xl md:text-5xl lg:text-6xl text-white mb-6 animate-hypixel-float hypixel-title">
               {slides[currentSlide].title}
             </h1>
-            <p className="text-white/80 text-lg md:text-xl mb-8">
+            <p className="text-hypixel-aqua text-lg md:text-xl mb-8 font-medium">
               {slides[currentSlide].description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="minecraft-btn">
+              <Button className="hypixel-btn text-black font-bold">
                 <span className="btn-content">{slides[currentSlide].cta}</span>
               </Button>
-              <Button className="minecraft-btn" variant="outline">
+              <Button className="hypixel-btn bg-gradient-to-r from-hypixel-aqua to-hypixel-blue text-black font-bold" variant="outline">
                 <span className="btn-content">Discord'a Katıl</span>
               </Button>
             </div>
             
-            <div className="mt-16 flex justify-center gap-2">
+            <div className="mt-16 flex justify-center gap-3">
               {slides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full ${
-                    currentSlide === index ? "bg-minecraft-primary" : "bg-white/30"
-                  } transition-all duration-300`}
+                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                    currentSlide === index 
+                      ? "bg-hypixel-orange shadow-lg shadow-hypixel-orange/50 animate-hypixel-glow" 
+                      : "bg-white/30 hover:bg-white/50"
+                  }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -87,25 +97,25 @@ const HeroSlider = () => {
           </div>
         </div>
         
-        {/* Navigation Arrows */}
+        {/* Hypixel-style Navigation Arrows */}
         <button 
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-sm p-2 rounded-full text-white hover:bg-minecraft-primary/50 transition-colors z-30"
+          className="absolute left-6 top-1/2 -translate-y-1/2 hypixel-card p-3 rounded-full text-hypixel-orange hover:text-hypixel-gold transition-all duration-300 hover:scale-110 z-30 border border-hypixel-orange/30"
           onClick={prevSlide}
           aria-label="Previous slide"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={28} />
         </button>
         <button 
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur-sm p-2 rounded-full text-white hover:bg-minecraft-primary/50 transition-colors z-30"
+          className="absolute right-6 top-1/2 -translate-y-1/2 hypixel-card p-3 rounded-full text-hypixel-orange hover:text-hypixel-gold transition-all duration-300 hover:scale-110 z-30 border border-hypixel-orange/30"
           onClick={nextSlide}
           aria-label="Next slide"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={28} />
         </button>
       </div>
       
-      {/* Minecraft-like pixel border at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-[url('/images/minecraft-border.png')] bg-repeat-x z-20"></div>
+      {/* Hypixel-style decorative bottom border */}
+      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-hypixel-orange via-hypixel-gold to-hypixel-orange z-20"></div>
     </div>
   );
 };

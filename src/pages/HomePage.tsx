@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import HeroSlider from "@/components/HeroSlider";
 import ServerStats from "@/components/ServerStats";
 import FeatureCard from "@/components/FeatureCard";
-import { Gamepad2, Users, ShoppingCart, Shield, MessageSquare, BarChart3 } from "lucide-react";
+import { Gamepad2, Users, ShoppingCart, Shield, MessageSquare, BarChart3, Crown, Star } from "lucide-react";
 import GameModeTabs from "@/components/server/GameModeTabs";
 import MinecraftNews from "@/components/home/MinecraftNews";
 
@@ -13,14 +13,19 @@ const HomePage = () => {
     <div className="pt-16">
       <HeroSlider />
       
-      {/* IP Banner */}
-      <div className="bg-minecraft-primary py-4">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+      {/* Hypixel-style IP Banner */}
+      <div className="bg-gradient-to-r from-hypixel-orange to-hypixel-gold py-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] animate-hypixel-float"></div>
+        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
           <div className="mb-4 md:mb-0 text-center md:text-left">
-            <h2 className="text-white text-xl font-minecraft">Hemen Katıl!</h2>
-            <p className="text-white/80">Sunucu IP: play.trinovastudios.com</p>
+            <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
+              <Crown className="text-black w-6 h-6" />
+              <h2 className="text-black text-2xl font-hypixel font-bold">Hemen Katıl!</h2>
+              <Crown className="text-black w-6 h-6" />
+            </div>
+            <p className="text-black/80 font-medium text-lg">Sunucu IP: <span className="font-bold">play.farexnetwork.com</span></p>
           </div>
-          <Button variant="outline" className="border-white text-white hover:bg-white/10">
+          <Button className="bg-black text-hypixel-gold border-2 border-black hover:bg-hypixel-gold hover:text-black font-bold transition-all duration-300 hover:scale-105">
             IP'yi Kopyala
           </Button>
         </div>
@@ -28,54 +33,69 @@ const HomePage = () => {
       
       <ServerStats />
       
-      {/* Features Section */}
-      <section className="py-12 bg-minecraft-dark">
-        <div className="container mx-auto px-4">
-          <h2 className="section-title">Sunucumuzdaki Özellikler</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Hypixel-style Features Section */}
+      <section className="py-16 bg-gradient-to-br from-hypixel-dark-primary to-hypixel-dark-secondary relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="animate-hypixel-float absolute top-10 left-10 w-20 h-20 border-2 border-hypixel-orange rounded-lg"></div>
+          <div className="animate-hypixel-float absolute bottom-20 right-20 w-16 h-16 border-2 border-hypixel-aqua rounded-lg" style={{ animationDelay: '1s' }}></div>
+          <div className="animate-hypixel-float absolute top-1/2 left-1/4 w-12 h-12 border-2 border-hypixel-gold rounded-lg" style={{ animationDelay: '2s' }}></div>
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4 font-hypixel hypixel-title">Sunucumuzdaki Özellikler</h2>
+            <div className="flex justify-center items-center gap-2 text-hypixel-gold">
+              <Star size={16} className="animate-pulse" />
+              <span className="text-sm">Premium Deneyim</span>
+              <Star size={16} className="animate-pulse" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard 
               title="Özel Oyun Modları"
               description="Survival, SkyBlock, SkyWars, BedWars ve daha fazlasını içeren çeşitli oyun modları."
-              icon={<Gamepad2 className="text-minecraft-primary w-6 h-6" />}
+              icon={<Gamepad2 className="text-hypixel-orange w-8 h-8" />}
             />
             <FeatureCard 
               title="Aktif Topluluk"
               description="Her zaman oyun arkadaşı bulabileceğiniz canlı ve dostane bir topluluk."
-              icon={<Users className="text-minecraft-primary w-6 h-6" />}
+              icon={<Users className="text-hypixel-aqua w-8 h-8" />}
             />
             <FeatureCard 
               title="Zengin Mağaza"
               description="Karakterini ve oyun deneyimini geliştirebileceğin özel ürünler."
-              icon={<ShoppingCart className="text-minecraft-primary w-6 h-6" />}
+              icon={<ShoppingCart className="text-hypixel-gold w-8 h-8" />}
             />
             <FeatureCard 
               title="Adaletli Oyun"
               description="Anti-hile sistemlerimiz ve aktif moderatörlerimiz ile adil bir oyun ortamı."
-              icon={<Shield className="text-minecraft-primary w-6 h-6" />}
+              icon={<Shield className="text-hypixel-green w-8 h-8" />}
             />
             <FeatureCard 
               title="Discord Entegrasyonu"
               description="Discord ve Minecraft hesaplarını bağlayarak özel avantajlar elde et."
-              icon={<MessageSquare className="text-minecraft-primary w-6 h-6" />}
+              icon={<MessageSquare className="text-hypixel-purple w-8 h-8" />}
             />
             <FeatureCard 
               title="İstatistikler ve Sıralamalar"
               description="Kendi ilerlemeni takip et ve lider tablolarında yerini al."
-              icon={<BarChart3 className="text-minecraft-primary w-6 h-6" />}
+              icon={<BarChart3 className="text-hypixel-blue w-8 h-8" />}
             />
           </div>
         </div>
       </section>
       
-      {/* Game Modes Section */}
-      <section className="py-12">
+      {/* Hypixel-style Game Modes Section */}
+      <section className="py-16 bg-gradient-to-r from-hypixel-dark-secondary to-hypixel-dark-primary">
         <div className="container mx-auto px-4">
-          <h2 className="section-title">Oyun Modları</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4 font-hypixel hypixel-title">Oyun Modları</h2>
+            <p className="text-hypixel-aqua text-lg">En sevdiğin oyun modunu seç ve maceraya başla!</p>
+          </div>
           <GameModeTabs defaultValue="smp" />
           
-          <div className="text-center mt-10">
+          <div className="text-center mt-12">
             <Link to="/server">
-              <Button className="minecraft-btn">
+              <Button className="hypixel-btn text-black font-bold text-lg px-8 py-4">
                 <span className="btn-content">Tüm Oyun Modlarını Gör</span>
               </Button>
             </Link>
@@ -86,25 +106,29 @@ const HomePage = () => {
       {/* News Section */}
       <MinecraftNews />
       
-      {/* Discord Banner */}
-      <section className="py-16 bg-gradient-purple relative overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center relative z-10">
-            <h2 className="font-minecraft text-3xl text-white mb-6">Discord Topluluğumuza Katıl</h2>
-            <p className="text-white/80 text-lg mb-6">
-              Güncellemelerden haberdar ol, etkinliklere katıl ve toplulukla etkileşime geç!
-            </p>
-            <Button className="minecraft-btn" 
-                    onClick={() => window.open("https://discord.gg/trinovastudios", "_blank")}>
-              <span className="btn-content">Discord'a Katıl</span>
-            </Button>
-          </div>
+      {/* Hypixel-style Discord Banner */}
+      <section className="py-20 bg-gradient-to-br from-hypixel-purple via-hypixel-blue to-hypixel-aqua relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="animate-hypixel-float absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+          <div className="animate-hypixel-float absolute bottom-20 right-20 w-24 h-24 bg-white/10 rounded-full blur-xl" style={{ animationDelay: '1s' }}></div>
         </div>
-        {/* Discord Icon Background */}
-        <div className="absolute -right-20 -top-20 opacity-10">
-          <svg width="300" height="300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path fill="white" d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-          </svg>
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <div className="hypixel-card p-12 rounded-2xl border border-white/20">
+              <Crown className="w-16 h-16 mx-auto mb-6 text-hypixel-gold animate-hypixel-glow" />
+              <h2 className="font-hypixel text-4xl text-white mb-6 hypixel-title">Discord Topluluğumuza Katıl</h2>
+              <p className="text-white/90 text-xl mb-8 font-medium">
+                Güncellemelerden haberdar ol, etkinliklere katıl ve toplulukla etkileşime geç!
+              </p>
+              <Button className="hypixel-btn text-black font-bold text-lg px-8 py-4 hover:scale-110 transition-transform duration-300" 
+                      onClick={() => window.open("https://discord.gg/farexnetwork", "_blank")}>
+                <span className="btn-content flex items-center gap-2">
+                  <MessageSquare className="w-5 h-5" />
+                  Discord'a Katıl
+                </span>
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -112,4 +136,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
