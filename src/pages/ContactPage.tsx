@@ -61,19 +61,19 @@ const ContactPage = () => {
               <ContactInfoItem 
                 icon={<MessageSquare className="text-minecraft-primary" size={18} />}
                 title="Discord"
-                detail="discord.gg/trinovastudios"
+                detail="discord.gg/farexnetwork"
               />
               
               <ContactInfoItem 
                 icon={<Mail className="text-minecraft-primary" size={18} />}
                 title="E-posta"
-                detail="iletisim@trinovastudios.com"
+                detail="iletisim@farexnetwork.com"
               />
               
               <ContactInfoItem 
                 icon={<MapPin className="text-minecraft-primary" size={18} />}
                 title="Sunucu IP"
-                detail="play.trinovastudios.com"
+                detail="play.farexnetwork.com"
               />
               
               <ContactInfoItem 
@@ -201,7 +201,7 @@ const ContactPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FAQItem 
               question="Sunucuya nasıl katılabilirim?"
-              answer="Minecraft Java Edition 1.8 - 1.20.4 sürümlerinden biriyle 'play.trinovastudios.com' IP adresini kullanarak sunucumuza bağlanabilirsiniz. Bedrock Edition için 'bedrock.trinovastudios.com' adresini ve 19132 portunu kullanın."
+              answer="Minecraft Java Edition 1.8 - 1.20.4 sürümlerinden biriyle 'play.farexnetwork.com' IP adresini kullanarak sunucumuza bağlanabilirsiniz. Bedrock Edition için 'bedrock.farexnetwork.com' adresini ve 19132 portunu kullanın."
             />
             
             <FAQItem 
@@ -235,7 +235,7 @@ const ContactPage = () => {
             <Button 
               variant="outline" 
               className="border-minecraft-primary/50 text-minecraft-primary hover:bg-minecraft-primary/10"
-              onClick={() => window.open("https://discord.gg/trinovastudios", "_blank")}
+              onClick={() => window.open("https://discord.gg/farexnetwork", "_blank")}
             >
               Discord'a Katıl
             </Button>

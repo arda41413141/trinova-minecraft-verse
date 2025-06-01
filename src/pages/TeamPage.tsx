@@ -13,7 +13,7 @@ const TeamPage = () => {
         <div className="text-center mb-10">
           <h1 className="font-minecraft text-4xl text-minecraft-primary mb-4">Ekibimiz</h1>
           <p className="text-white/80 max-w-2xl mx-auto">
-            TrinovaStudios'un arkasındaki ekiple tanışın. Sunucumuzu harika kılmak için gece gündüz çalışan, 
+            Farex Network'ün arkasındaki ekiple tanışın. Sunucumuzu harika kılmak için gece gündüz çalışan, 
             topluluk deneyiminizi en üst düzeye çıkarmaya adanmış özel ekibimiz.
           </p>
         </div>
