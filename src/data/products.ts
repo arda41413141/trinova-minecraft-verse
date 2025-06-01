@@ -1,19 +1,20 @@
-
 import { Product } from "../context/cart/types";
 
-// Function to format price with the new format
+// Function to format price as whole number with 150% increase
 const formatPrice = (price: number): number => {
-  // Round to 2 decimal places to ensure proper formatting (e.g. 150.99)
-  return Number(price.toFixed(2));
+  // 150% increase means multiply by 2.5 (original + 150% of original)
+  const increasedPrice = price * 2.5;
+  // Round to whole number
+  return Math.round(increasedPrice);
 };
 
 export const products: Product[] = [
   {
     id: "1",
     name: "VIP Paketi",
-    price: formatPrice(29.99 * 1.8), // 80% increase
+    price: formatPrice(29.99 * 1.8), // 150% increase then round
     originalPrice: formatPrice(39.99 * 1.8), 
-    image: "/images/products/vip-rank.png",
+    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=400&fit=crop",
     description: "30 gün boyunca VIP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
     priceType: "balance",
@@ -23,9 +24,9 @@ export const products: Product[] = [
   {
     id: "vip_premium",
     name: "Premium VIP Paketi",
-    price: formatPrice(59.99 * 1.8), // 80% increase
+    price: formatPrice(59.99 * 1.8),
     originalPrice: formatPrice(79.99 * 1.8),
-    image: "/images/products/premium-vip.png",
+    image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
     description: "45 gün süresince Premium VIP özellikleri, özel kostümler ve her hafta ekstra kaynak kazanın.",
     category: "rank",
     priceType: "balance",
@@ -35,8 +36,8 @@ export const products: Product[] = [
   {
     id: "vip_elite",
     name: "Elite VIP Paketi",
-    price: formatPrice(99.99 * 1.8), // 80% increase
-    image: "/images/products/elite-vip.png",
+    price: formatPrice(99.99 * 1.8),
+    image: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=400&h=400&fit=crop",
     description: "60 gün Elite VIP ayrıcalıkları, özel komutlar, sınırsız kaynak ve haftalık özel ödüller.",
     category: "rank",
     priceType: "balance"
@@ -44,16 +45,15 @@ export const products: Product[] = [
   {
     id: "2",
     name: "MVP Paketi",
-    price: formatPrice(49.99 * 1.8), // 80% increase
-    image: "/images/products/mvp-rank.png",
+    price: formatPrice(49.99 * 1.8),
+    image: "https://images.unsplash.com/photo-1501286353178-1ec881214838?w=400&h=400&fit=crop",
     description: "30 gün boyunca MVP ayrıcalıklardan yararlanın ve özel oyun içi itemler kazanın.",
     category: "rank",
     priceType: "balance"
   }
-  // Equipment items have been removed as requested
 ];
 
-// Balance packages for purchase
+// Balance packages for purchase with 150% increase
 export const balancePackages = [
   {
     id: "balance-1",

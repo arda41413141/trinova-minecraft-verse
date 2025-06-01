@@ -1,12 +1,12 @@
 
 import { useEffect, useState } from "react";
 import { useCart } from "@/context/cart";
+import { useAuth } from "@/context/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { Wallet, ArrowUpRight, ArrowDownRight, ShoppingCart } from "lucide-react";
+import { Wallet, ArrowUpRight, ArrowDownRight, ShoppingCart, Lock } from "lucide-react";
 
 interface BalanceTransaction {
   id: string;
@@ -18,8 +18,16 @@ interface BalanceTransaction {
 
 const BalancePage = () => {
   const { balance, addBalance } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<BalanceTransaction[]>([]);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   // Load transaction history from localStorage
   useEffect(() => {
@@ -49,20 +57,37 @@ const BalancePage = () => {
     }).format(date);
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="container mx-auto px-4 py-20 pt-32 text-center">
+        <Lock size={64} className="mx-auto text-muted-foreground mb-4" />
+        <h1 className="text-2xl font-bold mb-4 font-farex">Erişim Engellendi</h1>
+        <p className="text-muted-foreground mb-6">
+          Bakiye sayfasına erişmek için giriş yapmalısınız.
+        </p>
+        <Button onClick={() => navigate("/")} className="bg-blue-600 hover:bg-blue-700">
+          Ana Sayfaya Dön
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-20 pt-32">
-      <h1 className="section-title">Bakiyem</h1>
+      <h1 className="section-title font-farex bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+        Farex Network - Bakiyem
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Balance Card */}
         <div className="lg:col-span-1">
-          <Card className="glass-card border-green-500/30 overflow-hidden">
+          <Card className="glass-card border-green-500/30 overflow-hidden animate-pulse-gentle">
             <div className="bg-gradient-to-b from-green-600/20 to-green-500/10 p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg text-green-400">Bakiyeniz</h2>
-                <Wallet size={24} className="text-green-400" />
+                <h2 className="text-lg text-green-400 font-farex">Bakiyeniz</h2>
+                <Wallet size={24} className="text-green-400 animate-bounce-slow" />
               </div>
-              <div className="text-3xl font-bold text-white flex items-center">
+              <div className="text-3xl font-bold text-white flex items-center font-farex">
                 <span className="mr-2">{balance || 0}</span>
                 <Badge variant="outline" className="text-xs border-green-500/30 text-green-400">TL</Badge>
               </div>
@@ -70,7 +95,7 @@ const BalancePage = () => {
             <CardContent className="pt-4 flex flex-col gap-3">
               <Button 
                 onClick={() => navigate("/shop?tab=balance")} 
-                className="bg-green-600 hover:bg-green-700 text-white w-full"
+                className="bg-green-600 hover:bg-green-700 text-white w-full hover:animate-wiggle"
               >
                 <ShoppingCart size={16} className="mr-2" />
                 Bakiye Yükle
@@ -83,7 +108,7 @@ const BalancePage = () => {
         <div className="lg:col-span-2">
           <Card className="glass-card h-full">
             <CardHeader className="border-b border-white/10">
-              <CardTitle className="font-minecraft text-minecraft-primary">
+              <CardTitle className="font-farex text-minecraft-primary">
                 İşlem Geçmişi
               </CardTitle>
             </CardHeader>
@@ -94,7 +119,7 @@ const BalancePage = () => {
                   <Button 
                     variant="outline" 
                     onClick={() => navigate("/shop?tab=balance")}
-                    className="mt-2"
+                    className="mt-2 hover:animate-bounce"
                   >
                     Bakiye Yükle
                   </Button>
@@ -102,9 +127,9 @@ const BalancePage = () => {
               ) : (
                 <div className="space-y-4">
                   {transactions.map((tx) => (
-                    <div key={tx.id} className="flex items-center justify-between pb-3 border-b border-white/10 last:border-0">
+                    <div key={tx.id} className="flex items-center justify-between pb-3 border-b border-white/10 last:border-0 hover:bg-white/5 p-2 rounded transition-colors">
                       <div className="flex items-center">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 animate-pulse-gentle ${
                           tx.type === "purchase" 
                             ? "bg-green-500/20 text-green-400" 
                             : "bg-amber-500/20 text-amber-400"
@@ -116,11 +141,11 @@ const BalancePage = () => {
                           )}
                         </div>
                         <div>
-                          <p className="font-medium">{tx.description}</p>
+                          <p className="font-medium font-farex">{tx.description}</p>
                           <p className="text-xs text-muted-foreground">{formatDate(tx.date)}</p>
                         </div>
                       </div>
-                      <div className={`font-medium ${
+                      <div className={`font-medium font-farex ${
                         tx.type === "purchase" ? "text-green-400" : "text-amber-400"
                       }`}>
                         {tx.type === "purchase" ? "+" : "-"}{tx.amount} TL

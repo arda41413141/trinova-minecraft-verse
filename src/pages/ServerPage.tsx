@@ -14,9 +14,9 @@ const ServerPage = () => {
       <div className="container mx-auto px-4">
         {/* Page Header */}
         <div className="text-center mb-10">
-          <h1 className="font-minecraft text-4xl text-minecraft-primary mb-4">Sunucu Bilgileri</h1>
+          <h1 className="font-farex text-4xl text-minecraft-primary mb-4">Sunucu Bilgileri</h1>
           <p className="text-white/80 max-w-2xl mx-auto">
-            TrinovaStudios Minecraft sunucusuna nasıl bağlanacağınızı, oyun modlarımızı ve sunucumuzda sizi nelerin beklediğini öğrenin.
+            Farex Network Minecraft sunucusuna nasıl bağlanacağınızı, oyun modlarımızı ve sunucumuzda sizi nelerin beklediğini öğrenin.
           </p>
         </div>
         
